@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 .FichePromotion {
-   font-family: 'Fira Sans Extra Condensed', Arial, sans-serif;
     position: relative;
     display: inline-block;
     overflow: hidden;
