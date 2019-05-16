@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+  <head>
+    <style>
+       
+      #map {
+        height: 400px;  
+        width: 100%;
+       }
+    </style>
+    
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+   
+    <h:form id="essaigmap">
+ <h:inputHidden value="#{catalogBean.longitude}" id="longitude" />
+ <h:inputHidden value="#{catalogBean.latitude}" id="latitude"/>
+ </h:form>
+ 
+    <div id="map"></div>
+   <script type="text/javascript">
+// Initialize and add the map
+function initMap(form) {
+
+		 var xA = document.getElementById("essaigmap:longitude").value;
+		 var yA = document.getElementById("essaigmap:latitude").value;
+	
+		  var pointA = new google.maps.LatLng(xA, yA),
+		    pointB = new google.maps.LatLng(48.8144, 2.31606),
+		    myOptions = {
+		      zoom: 10,
+		      center: pointA
+		    },
+		    map = new google.maps.Map(document.getElementById('map'), myOptions),
+		    // Instantiate a directions service.
+		    directionsService = new google.maps.DirectionsService,
+		    directionsDisplay = new google.maps.DirectionsRenderer({
+		      map: map
+		    }),
+		    markerA = new google.maps.Marker({
+		      position: pointA,
+		      title: "point A",
+		      label: "A",
+		      map: map
+		    }),
+		    markerB = new google.maps.Marker({
+		      position: pointB,
+		      title: "point B",
+		      label: "B",
+		      map: map
+		    });
+		  
+		  
+		//promotion.getShopList().get(0).getAddress().getCoordinates().getLatitude()
+		  
+		  
+		  
+		//  var flightPlanCoordinates = [
+		//	    {lat: 51.7519, lng: -1.2578},
+		//	    {lat: 50.8429, lng:-0.1313}
+		//	  ];
+		//	  var flightPath = new google.maps.Polyline({
+		//	    path: flightPlanCoordinates,
+		//	    geodesic: true,
+		//	    strokeColor: '#FF0000',
+		//	    strokeOpacity: 1.0,
+		//	    strokeWeight: 2
+		//	  });
+
+		//	  flightPath.setMap(map);
+			
+
+		  // get route from A to B
+		  calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+
+		}
+
+
+
+		function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+		  directionsService.route({
+		    origin: pointA,
+		    destination: pointB,
+		    travelMode: google.maps.TravelMode.WALKING
+		  }, function(response, status) {
+		    if (status == google.maps.DirectionsStatus.OK) {
+		      directionsDisplay.setDirections(response);
+		    } else {
+		      window.alert('Directions request failed due to ' + status);
+		    }
+		  });
+		}
+	
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+ 
+   <script TYPE="text/javascript">  
+function onCall(form) { 
+     var idstr=form["formname:sname1"].value;
+     
+   alert(idstr); 
+   
+}  
+</script>
+<f:view>
+<html>
+<body>
+<h:form id="formname">
+<span>Student Name</span>
+ <h:inputText id="sname1" value="#{studentBean.studentId}" />
+<h:commandButton value="click"  onclick="onCall(this.form)"/> 
+ </h:form>
+ </body>
+</html>
+     
+</f:view> 
+    -->
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjK4s5E_XSHlbogF3XVu2kNpGxFCIBDdc&amp;callback=initMap&amp;sensor=false&amp;libraries=geometry">
+    </script>
+  </body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" lang="fr">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/w3.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/styleArcheClient.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/Fiche_promotion.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/main.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/styleFichePromotionDetaille.css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../Ressources/css/footer.css" />
+	<title><ui:insert name="title"></ui:insert></title>
+	<ui:insert name="headcssscript"></ui:insert>
+
+
+</h:head>
+
+<body class="w3-row">
+
+	<header class="w3-col s12">
+	<div class="navbar">
+		<h:form id="form1">
+			<div class="topnav w3-mobile w3-teal w3-row-padding" id="myTopNav">
+				<div class="w3-bar w3-teal w3-mobile">
+					<div class="w3-teal w3-mobile w3-col s2 ">
+						<a href="../../index.xhtml" class="w3-bar-item w3-mobile w3-teal"><img
+							style="width: 70%; height: 70%;"
+							src="../../Ressources/Images/Logos/promo32_logo.png"
+							alt="Logo de promo 32" /></a>
+					</div>
+					<!--  barre de recherche par mots clés saisis et catégorie sélectionnée -->
+					<h:panelGroup layout="block" rendered ="#{empty connectionBean.loggedUser or connectionBean.loggedUser['class'].simpleName eq 'Client'}">
+					<div class="w3-teal w3-mobile w3-row w3-col s7 w3-padding-24">
+						<h:selectOneMenu id="escape02"
+							value="#{catalogBean.selectedCategory}"
+							class="w3-select w3-dark-grey w3-mobile w3-col s2">
+							<f:selectItem itemLabel="Toutes les catégories"
+								itemValue="#{null}" />
+							<f:selectItems value="#{catalogBean.categories}" var="category"
+								itemValue="#{category.name}" itemLabel="#{category.name}" />
+						</h:selectOneMenu>
+						<div>
+							<h:inputText class="w3-bar-item w3-input w3-col s9"
+								placeholder="Search.." value="#{catalogBean.searchField}" />
+							<h:commandButton action="#{catalogBean.search}"
+								class="w3-bar-item w3-btn w3-light-gray w3-medium w3-text-teal w3-col s1"
+								value="Go" />
+						</div>
+						<h:inputHidden id="latVilleSelec" value="#{catalogBean.latitudeVilleSelec}"></h:inputHidden>
+						<h:inputHidden id="longVilleSelec" value="#{catalogBean.longitudeVilleSelec}"></h:inputHidden>
+					</div>
+					</h:panelGroup>
+					<div class="w3-teal w3-right w3-col s3">
+						<div class="w3-bar-item w3-teal">
+							<img style="width: 70%; height: 70%;"
+								src="../../Ressources/Images/slogan/Promo_slogan.png"
+								alt="Texte disant Vie une promo !" />
+						</div>
+					</div>
+				</div>
+				<!-- affichage des produits par géolocalisation -->
+				<div
+					class="bottomnavrr w3-bar w3-teal w3-row w3-mobile w3-padding-small"
+					id="myBottomnav">
+					<h:panelGroup layout="block" rendered ="#{empty connectionBean.loggedUser or connectionBean.loggedUser['class'].simpleName eq 'Client'}">
+					<div class="w3-bar w3-bar-item w3-teal w3-mobile w3-col s7">
+						<div class="w3-dropdown-hover w3-mobile">
+							<div class="w3-btn w3-teal w3-padding-16">
+								Localisation <i class="fa fa-caret-down" />
+							</div>
+							<h:panelGroup
+								class="w3-dropdown-content w3-bar-block w3-dark-grey w3-container w3-padding-16"
+								layout="block">
+								<h:inputText id="searchAdress"
+									value="#{catalogBean.searchSourceAddress}" class="w3-bar-item" />
+								<h:outputText id="addressWarning"
+									value="#{catalogBean.addressWarning}"
+									class="w3-bar-item w3-text-red" />
+							</h:panelGroup>
+						</div>
+						<div class="w3-bar-item w3-dropdown-hover w3-teal w3-mobile">
+							<div class="w3-center">
+								<h:outputLabel id="lblDistanceKm"
+									value="#{catalogBean.searchPerimeter} km" />
+							</div>
+							<span>0km</span>
+							<h:inputText id="myRange" value="#{catalogBean.searchPerimeter}">
+								<f:passThroughAttributes
+									value="#{{'type':'range', 'min':'0', 'max':'20', 'step':'1'}}" />
+								<f:ajax event="change" execute="myRange" render="lblDistanceKm" />
+							</h:inputText>
+							<span>20km</span>
+						</div>
+						<!-- recherche produits par catégorie -->
+						<div class="w3-bar-item w3-dropdown-hover w3-teal w3-mobile">
+							<button class="w3-btn w3-padding-16">
+								Toutes les catégories <i class="fa fa-caret-down"></i>
+							</button>
+							<h:panelGroup
+								class="w3-dropdown-content w3-bar-block w3-dark-grey"
+								layout="block">
+								<ui:repeat var="cat" value="#{catalogBean.categories}">
+									<h:panelGroup layout="block" class="w3-bar-item w3-mobile">
+										<h:commandButton action="#{catalogBean.searchByCategory(cat)}"
+											value="#{cat.name}"
+											class="w3-button w3-dark-grey w3-hover-dark-grey w3-hover-text-teal" />
+										<h:panelGroup class="fa fa-caret-down" onclick="show(this)" />
+										<h:panelGroup layout="block" class="w3-light-grey w3-hide">
+											<ui:repeat var="subcat" value="#{cat.categoryDaughter}">
+												<h:commandButton
+													action="#{catalogBean.searchByCategory(subcat)}"
+													value="#{subcat.name}"
+													class="w3-button w3-light-grey w3-light-grey" />
+											</ui:repeat>
+										</h:panelGroup>
+									</h:panelGroup>
+
+								</ui:repeat>
+							</h:panelGroup>
+						</div>
+					</div>
+					</h:panelGroup>
+
+					<div class="w3-bar w3-teal w3-mobile w3-col s5 w3-padding-small">
+						<div class="w3-right w3-teal">
+
+							<!-- Client section -->
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Client'}"
+								layout="block">
+								<a
+									href="../../client/reservationClient/gererReservationClient.xhtml"
+									class="w3-btn w3-teal w3-padding-16"> Réservations </a>
+							</h:panelGroup>
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Client'}}"
+								layout="block">
+								<a href="../../client/suiviClient/suiviClient.xhtml"
+									class="w3-btn w3-teal w3-padding-16"> Suivi </a>
+							</h:panelGroup>
+							<!-- /Client Section -->
+
+							<!-- ShopKeeper section -->
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Shopkeeper'}"
+								layout="block">
+								<a
+									href="../../commercant/fichePromotionDetailleeCommercant/formulaireAjoutPromotion.xhtml"
+									class="w3-button w3-teal w3-padding-16"> Créer promotion </a>
+							</h:panelGroup>
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Shopkeeper'}"
+								layout="block">
+								<a
+									href="../../commercant/gererReservationCommercant/gererReservation.xhtml"
+									class="w3-button w3-teal w3-padding-16"> Gérer réservations </a>
+							</h:panelGroup>
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Shopkeeper'}"
+								layout="block">
+								<h:commandButton action="#{addPromotionBean.getPromotionCommercant}"
+									value="Mes Promotions" class="w3-button w3-teal w3-padding-16" >
+									</h:commandButton>
+							</h:panelGroup>
+							<!-- /ShopKeeper section -->
+
+							<!-- Global section -->
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser}" layout="block">
+								<a href="" class="w3-button w3-teal w3-padding-16"> Profil </a>
+							</h:panelGroup>
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{empty connectionBean.loggedUser}" layout="block">
+								<a href="../../invite/connexion/connexion.xhtml"
+									class="w3-btn w3-teal w3-padding-16"> Connexion </a>
+							</h:panelGroup>
+							<h:panelGroup class="w3-mobile w3-bar-item"
+								rendered="#{not empty connectionBean.loggedUser}" layout="block">
+								<h:commandButton action="#{connectionBean.logout}"
+									value="Déconnexion" class="w3-button w3-teal w3-padding-16" />
+							</h:panelGroup>
+							<!-- /Global section -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</div>
+	</header>
+	<div id="global" class=" w3-center w3-col s12"
+		style="min-height: 500px">  
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjK4s5E_XSHlbogF3XVu2kNpGxFCIBDdc&amp;sensor=false&amp;libraries=geometry">
+  </script>
+		<ui:insert name="content"></ui:insert>
+	</div>
+	<footer id="realfooter" class=" w3-teal w3-col s12">
+	<div id="apropos" class="footer">
+		<ul>
+			<li>
+				<h3>
+					<b>A PROPOS</b>
+				</h3>
+			</li>
+			<li class="lienfooter"><a href="" alt="">Qui sommes-nous?</a></li>
+			<li class="lienfooter"><a href="" alt="">Conditions
+					générales de vente</a></li>
+			<li class="lienfooter"><a href="" alt="">Mentions légales</a></li>
+			<li class="lienfooter"><a href="" alt="">Signaler un abus</a></li>
+			<li class="lienfooter"><a href="" alt="">Cookies</a></li>
+		</ul>
+	</div>
+
+	<div id="sav" class="footer">
+		<ul>
+			<li>
+				<h3>
+					<b>AIDE, SERVICE &amp; SAV</b>
+				</h3>
+			</li>
+			<li class="lienfooter"><a href="" alt="">Service Après-Vente</a></li>
+			<li class="lienfooter"><a href="" alt="">Besoin d'aide?</a></li>
+		</ul>
+	</div>
+	<div id="follow" class="footer">
+		<h3>
+			<b>NOUS SUIVRE</b>
+		</h3>
+		<ul>
+			<li><a href="#"> <img class="socialicons"
+					src="../../Ressources/Images/Image_footerArcheClient/facebook.png"
+					height="60" width="60" />
+			</a></li>
+			<li><a href="#"> <img class="socialicons"
+					src="../../Ressources/Images/Image_footerArcheClient/twitter.png"
+					height="60" width="60" />
+			</a></li>
+			<li><a href="#"> <img class="socialicons"
+					src="../../Ressources/Images/Image_footerArcheClient/instagram.png"
+					height="60" width="60" />
+			</a></li>
+			<li><a href="#"> <img class="socialicons"
+					src="../../Ressources/Images/Image_footerArcheClient/pinterest.png"
+					height="60" width="60" />
+			</a></li>
+		</ul>
+	</div>
+	</footer>
+
+	<ui:insert name="headscript"></ui:insert>
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script type="text/javascript"
+		src="../../Ressources/js/scriptArcheClient.js"></script>
+	<script type="text/javascript"
+		src="../../Ressources/js/jquery.easy-autocomplete.js"></script>
+	<script type="text/javascript" src="../../Ressources/js/maintable.js"></script>
+	<script type="text/javascript" src="../../Ressources/js/modernizr.js"></script>
+	<script type="text/javascript"
+		src="../../Ressources/js/scriptPerimetre.js"></script>
+
+	<script type="text/javascript">
+		function show(element) {
+			var x = element.parentNode.childNodes[2];
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else {
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function show(element) {
+			var x = element.parentNode.childNodes[2];
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else {
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		//<![CDATA[ 
+		document.getElementsByClassName("tablink")[0].click();
+
+		function openCity(evt, cityName) {
+			var i, x, tablinks;
+			x = document.getElementsByClassName("city");
+			for (i = 0; i < x.length; i++) {
+				x[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablink");
+			for (i = 0; i < x.length; i++) {
+				tablinks[i].classList.remove("w3-light-grey");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.classList.add("w3-light-grey");
+		}
+
+		function showModal(element) {
+			var y = this.parentNode;
+			y.style.display = 'block';
+		}
+		//]]>
+	</script>
+	<script type="text/javascript">
+		window.addEventListener(
+						"load",
+						function() {
+							if ("geolocation" in navigator) { /* géolocalisation possible */
+								navigator.geolocation
+										.getCurrentPosition(function(position) {
+											//Format JSON de la latitude et de la longitude pour géolocalisé un invité
+											geolocationUser = {
+												latitude : position.coords.latitude,
+												longitude : position.coords.longitude
+											};
+											console.log(geolocationUser);
+										});
+							} else {
+								alert("Le service de géolocalisation n'est pas disponible sur votre ordinateur.");
+							}
+						}, false);
+	</script>
+</body>
+
+</html>

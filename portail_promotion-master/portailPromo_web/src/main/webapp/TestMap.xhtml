@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<%@ taglib uri="http://code.google.com/p/gmaps4jsf/" prefix="m"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script
+ src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAxrVS1QxlpJHXxQ2Vxg2bJBQdkFK- tWRbPPQS4ACM1pq_e-PltxQXeyH20wQuqDaQ_6EM5UeGGVpnIw"
+	type="text/javascript"></script>
+<title>Insert title here</title>
+</head>
+<body>
+<f:view>
+	<h:form id="form">
+		<m:map zoom="16" width="500px" height="500px" address="White house">
+			<m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_LEFT" />
+			<m:mapControl name="GMapTypeControl" />
+			<m:htmlInformationWindow htmlText="White house"></m:htmlInformationWindow>
+		</m:map>
+	</h:form>
+</f:view>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Maps</title>
+<style>
+#map-canvas{
+	width: 500px;
+	height: 500px;
+  }
+</style>
+
+<script>
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeN-BYx5w0S5NqmG3mLslb3Xzfldh6r0w&amp;libraries=places"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu5nZKbeK-WHQ70oqOWo-_4VmwOwKP9YQ&amp;libraries=places"
+		
+	type="text/javascript">
+	</script>
+</head>
+<body>
+ <div id="map-canvas"></div>
+ 
+ <script>
+ var directionDisplay = new google.maps.DirectionRenderer();
+ var directionService = new google.maps.DirectionService();
+ var map;
+ var boudha= new google.maps.LatLng(27.721503, 85,362072);
+ var hattisar= new google.maps.LatLng(27.711360, 85,318781);
+ 
+ var mapOptions = {
+		 zoom:14,
+		 center: boudha
+ };
+ map = new google.map.Map(documet.getElementById('map-canvas'), mapOptions);
+ }
+ </script>
+</body>
+</html>
+-->

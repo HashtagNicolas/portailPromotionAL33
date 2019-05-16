@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/archeClient.xhtml">
+	<ui:define name="title">Nos produits - Promo32</ui:define>
+	<ui:define name="headcssscript">
+		<link type="text/css" rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+		<link type="text/css" rel="stylesheet" href="./css/slideshow.css" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:panelGroup id="addPromotionPanel" class="w3-content w3-padding-24" layout="block">
+			<h:form class="w3-container">
+				<h2 class="w3-text-teal w3-padding-24">Formulaire de création d'une
+					promotion</h2>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Nom de la promotion</b></label>
+					<h:inputText class="w3-input w3-border" id="nom"
+						value="#{addPromotionBean.promotionName}" />
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Description de la
+							promotion</b></label>
+					<h:inputText class="w3-input w3-border" id="description"
+						value="#{addPromotionBean.promotionDescription}" />
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Commerce</b></label>
+					<h:selectOneMenu value="#{addPromotionBean.commerceId}"
+									 class="w3-select w3-dark-grey w3-mobile" id="shop">
+						<f:selectItem itemLabel="Choisissez un commerce..." itemValue="#{null}"></f:selectItem>
+						<f:selectItems value="#{addPromotionBean.shops}" var="shop"
+									   itemValue="#{shop.id}" itemLabel="#{shop.name}" />
+						<f:ajax event="change" execute="shop" render="topPromoSlideshow"
+								onevent="function(data) { if (data.status === 'success') {
+    										showDivs(slideIndex) } }"/>
+					</h:selectOneMenu>
+				</h:panelGroup>
+				<h:panelGroup id="topPromoSlideshow" class="w3-padding-24" layout="block">
+					<h:panelGroup layout="block" rendered='#{addPromotionBean.commerceId != null}'>
+						<label class="w3-text-teal"><b>Promotions les plus efficaces pour les produits de ce commerce :</b></label>
+						<h:panelGroup  class="w3-content w3-display-container w3-margin-top" layout="block">
+							<ui:repeat value="#{addPromotionBean.promoTemplates}" var="promoTemplate">
+								<h:panelGroup styleClass="topPromo w3-row" layout="block">
+									<h:panelGroup styleClass="w3-col s6 w3-border-right" layout="block">
+										<h:outputText styleClass="w3-show w3-margin-bottom" value="Type de la promotion: #{promoTemplate.promotionType.name}"/>
+										<h:panelGroup layout="block" rendered="#{promoTemplate.promotionType.name == 'Pack'}">
+											<h:outputText styleClass="w3-show w3-margin-bottom" value="Nombre acheté: #{promoTemplate.promotionType.numberPurchased}"/>
+											<h:outputText styleClass="w3-show w3-margin-bottom" value="Nombre offert: #{promoTemplate.promotionType.numberOffered}"/>
+										</h:panelGroup>
+										<h:panelGroup layout="block" rendered="#{promoTemplate.promotionType.name == 'Pourcentage'}">
+											<h:outputText styleClass="w3-show w3-margin-bottom" value="Pourcentage de réduction: #{promoTemplate.promotionType.percentValue} %"/>
+										</h:panelGroup>
+										<h:panelGroup layout="block" rendered="#{promoTemplate.promotionType.name == 'Remise'}">
+											<h:outputText styleClass="w3-show" value="Valeur de la remise: #{promoTemplate.promotionType.discountValue} €"/>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup styleClass="w3-col s6" layout="block">
+										<h:outputText styleClass="w3-show w3-margin-bottom" value="Durée de la promotion: #{promoTemplate.limitTimePromotion.toDays()} jour(s)"/>
+										<h:outputText styleClass="w3-show w3-margin-bottom" value="Durée de limite de retrait: #{promoTemplate.limitTimeTakePromotion.toHours()} heure(s)"/>
+									</h:panelGroup>
+									<h:panelGroup styleClass="w3-col s12" layout="block">
+										<h:commandButton class="w3-btn w3-teal"
+														 action="#{addPromotionBean.chooseTemplate(promoTemplate)}"
+														 value="Choisir" />
+									</h:panelGroup>
+								</h:panelGroup>
+							</ui:repeat>
+							<a class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</a>
+							<a class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</a>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Type de la promotion</b></label>
+					<h:selectOneMenu value="#{addPromotionBean.typePromotion}"
+						class="w3-select w3-dark-grey w3-mobile" id="promotionType">
+						<f:selectItem itemLabel="Pourcentage" itemValue="Pourcentage"/>
+						<f:selectItem itemLabel="Remise" itemValue="Remise"/>
+						<f:selectItem itemLabel="Pack" itemValue="Pack"/>
+						<f:ajax event="change" execute="promotionType" render="promotionDetailPanel"/>
+					</h:selectOneMenu>
+				</h:panelGroup>
+				<!-- Promotion specific field -->
+				<h:panelGroup class="w3-padding-24" layout="block" id="promotionDetailPanel">
+					<h:panelGroup class="w3-padding-24" layout="block" rendered='#{addPromotionBean.typePromotion == "Pourcentage"}'>
+						<label class="w3-text-teal"><b>Valeur du pourcentage de remise</b></label>
+						<h:inputText class="w3-input w3-border" id="percent"
+									 value="#{addPromotionBean.percentValue}">
+							<f:convertNumber></f:convertNumber>
+						</h:inputText>
+					</h:panelGroup>
+					<h:panelGroup class="w3-padding-24" layout="block" rendered='#{addPromotionBean.typePromotion == "Remise"}'>
+						<label class="w3-text-teal"><b>Valeur de la remise</b></label>
+						<h:inputText class="w3-input w3-border" id="discountValue"
+									 value="#{addPromotionBean.discountValue}">
+							<f:convertNumber minFractionDigits="1"></f:convertNumber>
+						</h:inputText>
+					</h:panelGroup>
+					<h:panelGroup class="w3-padding-24" layout="block" rendered='#{addPromotionBean.typePromotion != "Pack"}'>
+						<label class="w3-text-teal"><b>Montant minimum d'achat</b></label>
+						<h:inputText class="w3-input w3-border" id="montant"
+									 value="#{addPromotionBean.minPurchaseAmount}">
+							<f:convertNumber minFractionDigits="1"></f:convertNumber>
+						</h:inputText>
+					</h:panelGroup>
+					<h:panelGroup class="w3-padding-24" layout="block" rendered='#{addPromotionBean.typePromotion == "Pack"}'>
+						<label class="w3-text-teal"><b>Nombre acheté</b></label>
+						<h:inputText class="w3-input w3-border" id="purchaseNumber"
+									 value="#{addPromotionBean.numberPurchase}">
+							<f:convertNumber integerOnly="true"></f:convertNumber>
+						</h:inputText>
+					</h:panelGroup>
+					<h:panelGroup class="w3-padding-24" layout="block" rendered='#{addPromotionBean.typePromotion == "Pack"}'>
+						<label class="w3-text-teal"><b>Nombre offert</b></label>
+						<h:inputText class="w3-input w3-border" id="givenNumber"
+									 value="#{addPromotionBean.numberOffered}">
+							<f:convertNumber integerOnly="true"></f:convertNumber>
+						</h:inputText>
+					</h:panelGroup>
+				</h:panelGroup>
+				<!-- /Promotion specific field -->
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Durée de la promotion (jours)</b></label>
+					<h:inputText class="w3-input w3-border" id="promotion_duration"
+								 value="#{addPromotionBean.promotionDuration}">
+						<f:convertNumber integerOnly="true"></f:convertNumber>
+					</h:inputText>
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Durée de retrait du produit (heure)</b></label>
+					<h:inputText class="w3-input w3-border" id="product_take_away_duration"
+								 value="#{addPromotionBean.productTakeAwayDuration}">
+						<f:convertNumber integerOnly="true"></f:convertNumber>
+					</h:inputText>
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Produit</b></label>
+					<h:selectOneMenu value="#{addPromotionBean.productId}"
+						class="w3-select w3-dark-grey w3-mobile">
+						<f:selectItem itemLabel="Choisissez un produit..." itemValue="#{null}"/>
+						<f:selectItems value="#{addPromotionBean.products}" var="product"
+							itemValue="#{product.id}"
+							itemLabel="#{product.referenceProduct.name} ( #{product.getInitPrice()} €)" />
+					</h:selectOneMenu>
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<label class="w3-text-teal"><b>Quantité mise en promotion</b></label>
+					<h:inputText class="w3-input w3-border" id="quantite"
+						value="#{addPromotionBean.initQuantityAvailable}">
+						<f:convertNumber></f:convertNumber>
+					</h:inputText>
+				</h:panelGroup>
+				<h:panelGroup class="w3-padding-24" layout="block">
+					<h:commandButton class="w3-btn w3-teal"
+						action="#{addPromotionBean.create}" value="Créer" />
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+
+
+		<script type="text/javascript"
+			src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/slideshow.js"></script>
+
+	</ui:define>
+</ui:composition>
+</html>
