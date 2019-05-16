@@ -31,10 +31,8 @@ public class BookBean {
 	@Autowired
 	IServiceReservation reservationService;
 
-	 @Autowired
-    EmailWServiceImpl emailService;
-    // bnm - 14/05/2019 implémentation d'un web service d'envoi d'email
-    // private EmailService emailService;
+	@Autowired
+	EmailService emailService;
 	
 	@Autowired
 	IServicePromotion promotionService; 

@@ -25,7 +25,7 @@ public class SubscriberService implements ISubscriberService{
 	private FollowingElementDataDao followingElementDataDao;
 	
 	@Autowired
-	private EmailService emailService;
+	private EmailServiceImpl emailService;
 
 	@Override
 	public void update(ISubscriber subscriber, IFollowableElement element) {

@@ -145,8 +145,7 @@ public class AddPromotionBean {
 		servicePublish.create(publish);
 		
 		followableElementService.notifySubscribers(shop);
-		 // bnm - 15/05/2019 implémentation envoi de courriels par web service
-		emailService.sendEmailPromoOwner( shopkeeper, promotion);
+		
 	}
 
 	private void createPackPromotion(Promotion promotion) {

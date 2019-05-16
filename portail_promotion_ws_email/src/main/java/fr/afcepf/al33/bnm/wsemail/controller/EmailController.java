@@ -28,7 +28,10 @@ public class EmailController {
     private static final  String  MESSAGE_RETOUR =  "ENVOI DU COURRIEL";   
     private static final String SUCCESS_STATUS = "OK";
     private static final String ERROR_STATUS = "KO";
+    private static final int    SUCCESS_CODE =  0;
+    private static final int   ERROR_SCODE   =  1;
 
+    
 //  @RequestMapping("/envoi")
     @RequestMapping(value="/envoi", headers="Accept=application/json", method = RequestMethod.POST)
 	public wsEmailResponseDTO sendMail( @RequestBody wsEmailDTO emailToSend ) {
@@ -58,23 +61,26 @@ public class EmailController {
 	        //Si Pas de pièce jointe
 	        if( courriel.getTitrePieceJointe() == null ) 
 	            // message simple 
-	            helper = new MimeMessageHelper( Enveloppe );
+	            helper = new MimeMessageHelper( Enveloppe, false, "utf-8" );
 	        else {
-	            // true permet d'activer un format de message multiparties
-	            helper = new MimeMessageHelper( Enveloppe, true );
+	            // true permet d'acter un format de message multiparties
+	            helper = new MimeMessageHelper( Enveloppe, true, "utf-8"  );
 	            helper.addAttachment( courriel.getTitrePieceJointe(), courriel.getPieceJointe() );
 	        }
 	        // Préparation de l'envoi
 			helper.setTo( courriel.getListeDestinataires() );
 			helper.setSubject(  courriel.getSujetMessage() );
-            helper.setText( courriel.getTexteMessage() );  
+			helper.setText( courriel.getTexteMessage(), true ); //Flag true =>  "text/html"
+            // Enveloppe.setContent( courriel.getTexteMessage(), "text/html" ); */
 			// Envoi du courriel
 			sender.send( Enveloppe );
-	         resultat.setAnswer( MESSAGE_RETOUR + " [ " + SUCCESS_STATUS + " ] ");
+			resultat.setCodeRetour(SUCCESS_CODE);
+	         resultat.setReponse( MESSAGE_RETOUR + " [ " + SUCCESS_STATUS + " ] ");
 		} 
 		catch ( Exception erreur ) {
-		    resultat.setAnswer( MESSAGE_RETOUR + " [ " + ERROR_STATUS +" ] ");
-		    resultat.setError(erreur);
+		    resultat.setCodeRetour(ERROR_SCODE);
+		    resultat.setReponse( MESSAGE_RETOUR + " [ " + ERROR_STATUS +" ] ");
+		    resultat.setErreur(erreur);
 		}  
 		 return resultat;
 	}		

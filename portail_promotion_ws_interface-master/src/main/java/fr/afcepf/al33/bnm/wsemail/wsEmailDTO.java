@@ -1,7 +1,5 @@
 package fr.afcepf.al33.bnm.wsemail;
 
-import java.util.List;
-
 import org.springframework.core.io.ClassPathResource;
 
 public class wsEmailDTO {

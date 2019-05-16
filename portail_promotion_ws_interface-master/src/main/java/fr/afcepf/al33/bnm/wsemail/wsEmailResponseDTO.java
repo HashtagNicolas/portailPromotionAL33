@@ -1,19 +1,42 @@
 package fr.afcepf.al33.bnm.wsemail;
 
 public class wsEmailResponseDTO {
-        private String Answer ;
-        private Exception error  ;
+        // Attributs
+        private int codeRetour;
+        private String reponse ;
+        private Exception erreur  ;
         
-        public Exception getError() {
-            return error;
+        public int getCodeRetour() {
+            return this.codeRetour;
         }
-        public void setError(Exception error) {
-            this.error = error;
+        public void setCodeRetour(int codeRetour) {
+            this.codeRetour = codeRetour;
         }
-        public String getAnswer() {
-            return Answer;
+        // Getters & Setters
+        public Exception getErreur() {
+            return this.erreur;
         }
-        public void setAnswer(String answer) {
-            Answer = answer;
+        public void setErreur(Exception error) {
+            this.erreur = error ;
         }
+        public String getReponse() {
+            return this.reponse;
+        }
+        public void setReponse(String answer) {
+            this.reponse = answer;
+        }
+        
+        @Override
+        public String toString() { 
+                 String chaine = " OBJET    [ wsEmailResponseDTO ]  \n  " ;
+                 chaine += ( "Code Retour  [ " + String.valueOf(this.codeRetour) + " ] \n") ;
+                 chaine += ( "Reponse [ " + this.reponse + " ]\n") ;
+                 if ( this.erreur != null ) {
+                     chaine += ( "Exception GetMessage [ " +  this.erreur.getMessage() + " ] \n") ;
+                     chaine += ( "Exception GetCause [ " +  this.erreur.getCause() + " ] \n") ;
+                     chaine += ( "Exception GetStackTrace [ " +  this.erreur.getStackTrace() + " ] \n") ;
+                 }
+            return chaine ;
+        }     
+     
 }

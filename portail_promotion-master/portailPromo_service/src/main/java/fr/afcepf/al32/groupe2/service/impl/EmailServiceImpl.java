@@ -20,6 +20,8 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Override
 	public void sendEmailPromotion(Client destinataire, IFollowableElement element) {
+	// bnm - 15/05/2019 implémentation envoi de courriels par web service
+	//    public void sendEmailPromotion(Client destinataire, IFollowableElement element) {
 
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		MimeMessageHelper helper = null;
@@ -27,6 +29,8 @@ public class EmailServiceImpl implements EmailService {
 			helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 			String text = null;
 
+			// bnm - 15/05/2019 implémentation envoi de courriels par web service
+			/*
 			if(element instanceof CategoryProduct) {
 				CategoryProduct category = (CategoryProduct) element;
 				text = String.format("Une nouvelle promotion pour la catégorie %s est disponible. Venez nous rendre visite sur www.promo32.fr pour la découvrir.", category.getName());
@@ -38,7 +42,9 @@ public class EmailServiceImpl implements EmailService {
 				Shop shop = (Shop) element;
 				text = String.format("Une nouvelle promotion est disponible chez le commerce %s. Venez nous rendre visite sur www.promo32.fr pour la découvrir.", shop.getName());
 			}
+*/
 
+	        text ="Une nouvelle promotion est disponible dans votre commerce %s";
 			mimeMessage.setContent(getEmailForNewPromotion(destinataire, text), "text/html");
 			helper.setTo(destinataire.getEmail());
 			helper.setSubject("Nouvelle promotion");
@@ -261,5 +267,11 @@ public class EmailServiceImpl implements EmailService {
 
 		return String.format(template, destinataire.getFirstName(), text);
 	}
+
+    @Override
+    public void sendEmailPromoOwner(Shopkeeper destinataire, Promotion element) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
