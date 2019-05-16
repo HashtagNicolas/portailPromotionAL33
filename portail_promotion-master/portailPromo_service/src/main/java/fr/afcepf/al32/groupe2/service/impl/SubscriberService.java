@@ -24,6 +24,7 @@ public class SubscriberService implements ISubscriberService{
 	@Autowired
 	private FollowingElementDataDao followingElementDataDao;
 	
+	
 	@Autowired
 	private EmailServiceImpl emailService;
 
