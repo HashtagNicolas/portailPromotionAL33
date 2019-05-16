@@ -25,7 +25,11 @@
 
 
 </h:head>
-
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+</style>
 <body class="w3-row">
 
 	<header class="w3-col s12">
@@ -65,7 +69,7 @@
 						<div class="w3-bar-item w3-teal">
 							<img style="width: 70%; height: 70%;"
 								src="../../Ressources/Images/slogan/Promo_slogan.png"
-								alt="Texte disant Vie une promo !" />
+								alt="Texte disant Vie une promo !" class="w3-right"/>
 						</div>
 					</div>
 				</div>
@@ -74,7 +78,7 @@
 					class="bottomnavrr w3-bar w3-teal w3-row w3-mobile w3-padding-small"
 					id="myBottomnav">
 					<h:panelGroup layout="block" rendered ="#{empty connectionBean.loggedUser or connectionBean.loggedUser['class'].simpleName eq 'Client'}">
-					<div class="w3-bar w3-bar-item w3-teal w3-mobile w3-col s7">
+					<div class="w3-bar w3-bar-item w3-teal w3-mobile w3-col s4">
 						<div class="w3-dropdown-hover w3-mobile">
 							<div class="w3-btn w3-teal w3-padding-16">
 								Localisation <i class="fa fa-caret-down" />
@@ -103,36 +107,36 @@
 							<span>20km</span>
 						</div>
 						<!-- recherche produits par catégorie -->
-						<div class="w3-bar-item w3-dropdown-hover w3-teal w3-mobile">
-							<button class="w3-btn w3-padding-16">
-								Toutes les catégories <i class="fa fa-caret-down"></i>
-							</button>
-							<h:panelGroup
-								class="w3-dropdown-content w3-bar-block w3-dark-grey"
-								layout="block">
-								<ui:repeat var="cat" value="#{catalogBean.categories}">
-									<h:panelGroup layout="block" class="w3-bar-item w3-mobile">
-										<h:commandButton action="#{catalogBean.searchByCategory(cat)}"
-											value="#{cat.name}"
-											class="w3-button w3-dark-grey w3-hover-dark-grey w3-hover-text-teal" />
-										<h:panelGroup class="fa fa-caret-down" onclick="show(this)" />
-										<h:panelGroup layout="block" class="w3-light-grey w3-hide">
-											<ui:repeat var="subcat" value="#{cat.categoryDaughter}">
-												<h:commandButton
-													action="#{catalogBean.searchByCategory(subcat)}"
-													value="#{subcat.name}"
-													class="w3-button w3-light-grey w3-light-grey" />
-											</ui:repeat>
-										</h:panelGroup>
-									</h:panelGroup>
+<!-- 						<div class="w3-bar-item w3-dropdown-hover w3-teal w3-mobile"> -->
+<!-- 							<button class="w3-btn w3-padding-16"> -->
+<!-- 								Toutes les catégories <i class="fa fa-caret-down"></i> -->
+<!-- 							</button> -->
+<!-- 							<h:panelGroup -->
+<!-- 								class="w3-dropdown-content w3-bar-block w3-dark-grey" -->
+<!-- 								layout="block"> -->
+<!-- 								<ui:repeat var="cat" value="#{catalogBean.categories}"> -->
+<!-- 									<h:panelGroup layout="block" class="w3-bar-item w3-mobile"> -->
+<!-- 										<h:commandButton action="#{catalogBean.searchByCategory(cat)}" -->
+<!-- 											value="#{cat.name}" -->
+<!-- 											class="w3-btn w3-dark-grey w3-hover-dark-grey w3-hover-text-teal" /> -->
+<!-- 										<h:panelGroup class="fa fa-caret-down" onclick="show(this)" /> -->
+<!-- 										<h:panelGroup layout="block" class="w3-light-grey w3-hide"> -->
+<!-- 											<ui:repeat var="subcat" value="#{cat.categoryDaughter}"> -->
+<!-- 												<h:commandButton -->
+<!-- 													action="#{catalogBean.searchByCategory(subcat)}" -->
+<!-- 													value="#{subcat.name}" -->
+<!-- 													class="w3-btn w3-light-grey w3-light-grey" /> -->
+<!-- 											</ui:repeat> -->
+<!-- 										</h:panelGroup> -->
+<!-- 									</h:panelGroup> -->
 
-								</ui:repeat>
-							</h:panelGroup>
-						</div>
+<!-- 								</ui:repeat> -->
+<!-- 							</h:panelGroup> -->
+<!-- 						</div> -->
 					</div>
 					</h:panelGroup>
 
-					<div class="w3-bar w3-teal w3-mobile w3-col s5 w3-padding-small">
+					<div class="w3-bar w3-teal w3-mobile w3-col s8 w3-padding-small">
 						<div class="w3-right w3-teal">
 
 							<!-- Client section -->
@@ -157,20 +161,20 @@
 								layout="block">
 								<a
 									href="../../commercant/fichePromotionDetailleeCommercant/formulaireAjoutPromotion.xhtml"
-									class="w3-button w3-teal w3-padding-16"> Créer promotion </a>
+									class="w3-btn w3-teal w3-padding-16"> Créer promotion </a>
 							</h:panelGroup>
 							<h:panelGroup class="w3-mobile w3-bar-item"
 								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Shopkeeper'}"
 								layout="block">
 								<a
 									href="../../commercant/gererReservationCommercant/gererReservation.xhtml"
-									class="w3-button w3-teal w3-padding-16"> Gérer réservations </a>
+									class="w3-btn w3-teal w3-padding-16"> Gérer réservations </a>
 							</h:panelGroup>
 							<h:panelGroup class="w3-mobile w3-bar-item"
 								rendered="#{not empty connectionBean.loggedUser and connectionBean.loggedUser['class'].simpleName eq 'Shopkeeper'}"
 								layout="block">
 								<h:commandButton action="#{addPromotionBean.getPromotionCommercant}"
-									value="Mes Promotions" class="w3-button w3-teal w3-padding-16" >
+									value="Mes Promotions" class="w3-btn w3-teal w3-padding-16" >
 									</h:commandButton>
 							</h:panelGroup>
 							<!-- /ShopKeeper section -->
@@ -178,7 +182,7 @@
 							<!-- Global section -->
 							<h:panelGroup class="w3-mobile w3-bar-item"
 								rendered="#{not empty connectionBean.loggedUser}" layout="block">
-								<a href="" class="w3-button w3-teal w3-padding-16"> Profil </a>
+								<a href="" class="w3-btn w3-teal w3-padding-16"> Profil </a>
 							</h:panelGroup>
 							<h:panelGroup class="w3-mobile w3-bar-item"
 								rendered="#{empty connectionBean.loggedUser}" layout="block">
@@ -188,7 +192,7 @@
 							<h:panelGroup class="w3-mobile w3-bar-item"
 								rendered="#{not empty connectionBean.loggedUser}" layout="block">
 								<h:commandButton action="#{connectionBean.logout}"
-									value="Déconnexion" class="w3-button w3-teal w3-padding-16" />
+									value="Déconnexion" class="w3-btn w3-teal w3-padding-16" />
 							</h:panelGroup>
 							<!-- /Global section -->
 						</div>
