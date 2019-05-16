@@ -106,7 +106,7 @@ public class AddPromotionBean {
 	
 	private List<Promotion> listPromo;
 	
-	public void create() {
+	public String create() {
 		Promotion promotion = new Promotion();
 		promotion.setName(promotionName);
 		promotion.setDescription(promotionDescription);
@@ -147,6 +147,7 @@ public class AddPromotionBean {
 		followableElementService.notifySubscribers(shop);
 		 // bnm - 15/05/2019 implémentation envoi de courriels par web service
 		emailService.sendEmailPromoOwner( shopkeeper, promotion);
+		return "../../invite/fichesPromotion/pageAffichagePromotions.xhtml";
 	}
 
 	private void createPackPromotion(Promotion promotion) {
@@ -350,7 +351,7 @@ public class AddPromotionBean {
 		this.listPromo = listPromo;
 	}
 
-	public void getPromotionCommercant(){
+	public String getPromotionCommercant(){
 		Shopkeeper shopkeeper = (Shopkeeper) connectionBean.getLoggedUser();
 		List<Promotion> promos= new ArrayList<Promotion>();
 		//Map<Long,Promotion> promotions= new HashMap<Long, Promotion>();
@@ -359,5 +360,6 @@ public class AddPromotionBean {
 		}
 		
 		setListPromo((List<Promotion>) promos);
+		return "../../invite/fichesPromotion/pageAffichagePromotions.xhtml";
 	}
 }

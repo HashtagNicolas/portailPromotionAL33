@@ -98,7 +98,7 @@
 					<h:graphicImage class="w3-image" alt="Promotions" title="Promotion"
 						value='../../Ressources/Images/product/#{promotion.getBaseProduct().image == null ? "img_promo_product_by_default.png" : promotion.getBaseProduct().image}' />
 	<div class="w3-col">			
-				   <h3>My Google Maps Demo</h3>
+
     <!--The div element for the map -->
  
     <div id="map" style="height: 400px; width: 100%;" data-id_item="id_#{promotion.id}">
@@ -112,7 +112,7 @@
     <h:form>
     <!-- <h:commandButton value="submit" action="#{catalogBean.distanceMeth}"/>
     <h:commandButton value="submit" onclick="document.getLatLongUser('id_#{promotion.id}')" action="#{catalogBean.submit}" /> -->
-    <h:inputText class ="Distanceid_#{promotion.id}"></h:inputText>
+    <h:inputText class ="Distanceid_#{promotion.id}">Votre promotion est à : </h:inputText>
     </h:form> 
   <script type="text/javascript">
 // Initialize and add the map
