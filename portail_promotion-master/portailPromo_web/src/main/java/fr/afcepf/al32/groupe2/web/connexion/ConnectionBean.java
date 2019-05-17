@@ -89,6 +89,10 @@ public class ConnectionBean {
 		return message;
 	}
 
+	public void setLoggedUser(User loggedUser) {
+		this.loggedUser = loggedUser;
+	}
 
+   
 
 }

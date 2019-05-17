@@ -57,34 +57,34 @@
 	</div>
 	<div class="w3-row w3-col s12 w3-padding-16">
 		<h:form class="w3-col s12 w3-row">
-			<h:selectOneMenu value="#{bookBean.quantityBooked}"
-				class="w3-select w3-col s3 w3-padding-16">
-				<f:convertNumber></f:convertNumber>
-				<f:selectItem itemValue="1" itemLabel="1" />
-				<f:selectItem itemValue="2" itemLabel="2" />
-				<f:selectItem itemValue="3" itemLabel="3" />
-				<f:selectItem itemValue="4" itemLabel="4" />
-				<f:selectItem itemValue="5" itemLabel="5" />
-				<f:selectItem itemValue="6" itemLabel="6" />
-				<f:selectItem itemValue="7" itemLabel="7" />
-				<f:selectItem itemValue="8" itemLabel="8" />
-				<f:selectItem itemValue="9" itemLabel="9" />
-				<f:selectItem itemValue="10" itemLabel="10" />
-			</h:selectOneMenu>
+<!-- 			<h:selectOneMenu value="#{bookBean.quantityBooked}" -->
+<!-- 				class="w3-select w3-col s3 w3-padding-16"> -->
+<!-- 				<f:convertNumber></f:convertNumber> -->
+<!-- 				<f:selectItem itemValue="1" itemLabel="1" /> -->
+<!-- 				<f:selectItem itemValue="2" itemLabel="2" /> -->
+<!-- 				<f:selectItem itemValue="3" itemLabel="3" /> -->
+<!-- 				<f:selectItem itemValue="4" itemLabel="4" /> -->
+<!-- 				<f:selectItem itemValue="5" itemLabel="5" /> -->
+<!-- 				<f:selectItem itemValue="6" itemLabel="6" /> -->
+<!-- 				<f:selectItem itemValue="7" itemLabel="7" /> -->
+<!-- 				<f:selectItem itemValue="8" itemLabel="8" /> -->
+<!-- 				<f:selectItem itemValue="9" itemLabel="9" /> -->
+<!-- 				<f:selectItem itemValue="10" itemLabel="10" /> -->
+<!-- 			</h:selectOneMenu> -->
 			<h:outputText class="w3-col s3 w3-padding-16"
 				value="#{promotion.getBaseProduct().referenceProduct.salesUnit.name}" />
 
-			<h:commandButton action="#{bookBean.book}"
-				disabled="#{empty connectionBean.loggedUser}" value="Réserver"
-				class="w3-button w3-teal w3-hover-dark-grey w3-col s6 w3-padding-16">
-				<f:param name="promotion" value="#{promotion.id}" />
-			</h:commandButton>
+<!-- 			<h:commandButton action="#{bookBean.book}" -->
+<!-- 				disabled="#{empty connectionBean.loggedUser}" value="Réserver" -->
+<!-- 				class="w3-button w3-teal w3-hover-dark-grey w3-col s6 w3-padding-16"> -->
+<!-- 				<f:param name="promotion" value="#{promotion.id}" /> -->
+<!-- 			</h:commandButton> -->
 		</h:form>
 	</div>
-	<h:outputText class="w3-col s12 w3-padding-16 w3-text-teal w3-center"
-		id="connectionWarningMessage"
-		rendered="#{empty connectionBean.loggedUser}"
-		value="Veuillez vous connecter pour réserver un produit" />
+<!-- 	<h:outputText class="w3-col s12 w3-padding-16 w3-text-teal w3-center" -->
+<!-- 		id="connectionWarningMessage" -->
+<!-- 		rendered="#{empty connectionBean.loggedUser}" -->
+<!-- 		value="Veuillez vous connecter pour réserver un produit" /> -->
 
 <!-- APPEL DE LA POPUP DE LA PROMO SELECTIONNEE -->
 
@@ -112,7 +112,7 @@
     <h:form>
     <!-- <h:commandButton value="submit" action="#{catalogBean.distanceMeth}"/>
     <h:commandButton value="submit" onclick="document.getLatLongUser('id_#{promotion.id}')" action="#{catalogBean.submit}" /> -->
-    <h:inputText class ="Distanceid_#{promotion.id}">Votre promotion est à : </h:inputText>
+<!--     <h:inputText class ="Distanceid_#{promotion.id}">Votre promotion est à : </h:inputText> -->
     </h:form> 
   <script type="text/javascript">
 // Initialize and add the map
@@ -121,17 +121,6 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 // 		var notre_variable = document.getElementById('global').appendChild(element_script);
 // 		notre_variable.addEventListener("load", function() { }, false);
 	  
-	  var latVilleSelec = document.getElementById('form1:latVilleSelec').value;
-	  var longVilleSelec = document.getElementById('form1:longVilleSelec').value;
-		
-	  if (latVilleSelec == 0 || latVilleSelec == null || longVilleSelec == 0 || longVilleSelec == null ){
-		     var xA = geolocationUser.latitude;
-			 var yA = geolocationUser.longitude;
-					  } else {
-						   xA = latVilleSelec;
-						   yA = longVilleSelec;
-					  }
-		 
 		
 		var xB= document.querySelector(".latitudeClass"+id_item).value;
 		 var yB= document.querySelector(".longitudeClass"+id_item).value;
@@ -154,30 +143,23 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 	//	var notre_variable = document.getElementById('global').appendChild(element_script);
 	//	notre_variable.addEventListener("load", function() { }, false);
 	
-         element1 = document.querySelector(".JavaLatUser"+id_item);
-         element1.value = xA;
+//          element1 = document.querySelector(".JavaLatUser"+id_item);
+//          element1.value = xA;
          
-		 element2 = document.querySelector(".JavaLongUser"+id_item);
-		 element2.value = yA;
+// 		 element2 = document.querySelector(".JavaLongUser"+id_item);
+// 		 element2.value = yA;
 	//	 console.log('lat:'+xC);
 	//	 console.log('long:'+yC);
 		 
-		  var pointA = new google.maps.LatLng(xA, yA),
-		    pointB = new google.maps.LatLng(xB, yB),
+		  var pointB = new google.maps.LatLng(xB, yB),
 		    myOptions = {
-		      zoom: 10,
-		      center: pointA
+		      zoom: 13,
+		      center: pointB
 		    },
 		    map = new google.maps.Map(document.querySelectorAll('div[data-id_item="'+id_item+'"]')[0], myOptions),
 		    // Instantiate a directions service.
 		    directionsService = new google.maps.DirectionsService,
 		    directionsDisplay = new google.maps.DirectionsRenderer({ map: map }),
-		    markerA = new google.maps.Marker({
-		      position: pointA,
-		      title: "point A",
-		      label: "A",
-		      map: map
-		    }),
 		    markerB = new google.maps.Marker({
 		      position: pointB,
 		      title: "point B",
@@ -185,19 +167,19 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 		      map: map
 		    });
 		  
-		  function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
-			  directionsService.route({
-			    origin: pointA,
-			    destination: pointB,
-			    travelMode: google.maps.TravelMode.WALKING
-			  }, function(response, status) {
-			    if (status == google.maps.DirectionsStatus.OK) { //console.log('On affiche ou pas !!!')
-			      directionsDisplay.setDirections(response);
-			    } else {
-			      window.alert('Directions request failed due to ' + status);
-			    }
-			  });
-			}
+// 		  function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+// 			  directionsService.route({
+// 			    origin: pointA,
+// 			    destination: pointB,
+// 			    travelMode: google.maps.TravelMode.WALKING
+// 			  }, function(response, status) {
+// 			    if (status == google.maps.DirectionsStatus.OK) { //console.log('On affiche ou pas !!!')
+// 			      directionsDisplay.setDirections(response);
+// 			    } else {
+// 			      window.alert('Directions request failed due to ' + status);
+// 			    }
+// 			  });
+// 			}
 		  
 		//promotion.getShopList().get(0).getAddress().getCoordinates().getLatitude()
 		  
@@ -219,26 +201,26 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 			
 
 		  // get route from A to B
-		  calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+	//	  calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
 		
 		
-		  function distance(xA,yA,xB,yB) {
-				var R = 6371; // km (change this constant to get miles)
-				var dLat = (xB-xA) * Math.PI / 180;
-				var dLon = (yB-yA) * Math.PI / 180;
-				var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(xA * Math.PI / 180 ) * Math.cos(xB * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
-				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-				var d = R * c;
-				 if (d > 1) {
-					 d = Math.round(d*100)/100+"km";
-					  } else {
-						  d = Math.round(d*1000)+"m";
-					  }
-				 var elt3 = document.querySelector(".Distance"+id_item);
-		         elt3.value =d;			
-			}
+// 		  function distance(xA,yA,xB,yB) {
+// 				var R = 6371; // km (change this constant to get miles)
+// 				var dLat = (xB-xA) * Math.PI / 180;
+// 				var dLon = (yB-yA) * Math.PI / 180;
+// 				var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(xA * Math.PI / 180 ) * Math.cos(xB * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
+// 				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+// 				var d = R * c;
+// 				 if (d > 1) {
+// 					 d = Math.round(d*100)/100*1.33+"km";
+// 					  } else {
+// 						  d = Math.round(d*1000)*1.33+"m";
+// 					  }
+// 				 var elt3 = document.querySelector(".Distance"+id_item);
+// 		         elt3.value =d;			
+// 			}
 		  
-		  distance(xA,yA,xB,yB);
+// 		  distance(xA,yA,xB,yB);
 	}
 
 // function getLatLongUser(id_item){
@@ -295,27 +277,27 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 					</div>
 					<div class="w3-row w3-col s12 w3-padding-16">
 						<h:form class="w3-col s12 w3-row">
-							<h:selectOneMenu value="#{bookBean.quantityBooked}"
-								class="w3-select w3-col s3 w3-padding-16">
-								<f:convertNumber></f:convertNumber>
-								<f:selectItem itemValue="1" itemLabel="1" />
-								<f:selectItem itemValue="2" itemLabel="2" />
-								<f:selectItem itemValue="3" itemLabel="3" />
-								<f:selectItem itemValue="4" itemLabel="4" />
-								<f:selectItem itemValue="5" itemLabel="5" />
-								<f:selectItem itemValue="6" itemLabel="6" />
-								<f:selectItem itemValue="7" itemLabel="7" />
-								<f:selectItem itemValue="8" itemLabel="8" />
-								<f:selectItem itemValue="9" itemLabel="9" />
-								<f:selectItem itemValue="10" itemLabel="10" />
-							</h:selectOneMenu>
-							<h:outputText class="w3-col s3 w3-padding-16"
-								value="#{promotion.getBaseProduct().referenceProduct.salesUnit.name}" />
-							<h:commandButton action="#{bookBean.book}"
-								disabled="#{empty connectionBean.loggedUser}" value="Réserver"
-								class="w3-button w3-teal w3-hover-dark-grey w3-col s6 w3-padding-16" >
-								<f:param name="promotion" value="#{promotion.id}" />
-							</h:commandButton>
+<!-- 							<h:selectOneMenu value="#{bookBean.quantityBooked}" -->
+<!-- 								class="w3-select w3-col s3 w3-padding-16"> -->
+<!-- 								<f:convertNumber></f:convertNumber> -->
+<!-- 								<f:selectItem itemValue="1" itemLabel="1" /> -->
+<!-- 								<f:selectItem itemValue="2" itemLabel="2" /> -->
+<!-- 								<f:selectItem itemValue="3" itemLabel="3" /> -->
+<!-- 								<f:selectItem itemValue="4" itemLabel="4" /> -->
+<!-- 								<f:selectItem itemValue="5" itemLabel="5" /> -->
+<!-- 								<f:selectItem itemValue="6" itemLabel="6" /> -->
+<!-- 								<f:selectItem itemValue="7" itemLabel="7" /> -->
+<!-- 								<f:selectItem itemValue="8" itemLabel="8" /> -->
+<!-- 								<f:selectItem itemValue="9" itemLabel="9" /> -->
+<!-- 								<f:selectItem itemValue="10" itemLabel="10" /> -->
+<!-- 							</h:selectOneMenu> -->
+<!-- 							<h:outputText class="w3-col s3 w3-padding-16" -->
+<!-- 								value="#{promotion.getBaseProduct().referenceProduct.salesUnit.name}" /> -->
+<!-- 							<h:commandButton action="#{bookBean.book}" -->
+<!-- 								disabled="#{empty connectionBean.loggedUser}" value="Réserver" -->
+<!-- 								class="w3-button w3-teal w3-hover-dark-grey w3-col s6 w3-padding-16" > -->
+<!-- 								<f:param name="promotion" value="#{promotion.id}" /> -->
+<!-- 							</h:commandButton> -->
 						</h:form>
 					</div>
 					<div class="w3-row w3-col s12 w3-padding-16">
@@ -335,27 +317,27 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 							<h:outputText
 								value="#{promotion.getShopList().get(0).address.city.name} " />
 						</div>
-						<h:form class="w3-col s12 w3-center">
-							<h:commandButton
-								action="#{followBean.follow(promotion.getShopList().get(0))}"
-								disabled="#{empty connectionBean.loggedUser}"
-								value="Suivre commerce"
-								class="w3-button w3-teal w3-hover-dark-grey w3-padding-16 w3-mobile" />
-						</h:form>
+<!-- 						<h:form class="w3-col s12 w3-center"> -->
+<!-- 							<h:commandButton -->
+<!-- 								action="#{followBean.follow(promotion.getShopList().get(0))}" -->
+<!-- 								disabled="#{empty connectionBean.loggedUser}" -->
+<!-- 								value="Suivre commerce" -->
+<!-- 								class="w3-button w3-teal w3-hover-dark-grey w3-padding-16 w3-mobile" /> -->
+<!-- 						</h:form> -->
 					</div>
-					<h:outputText
-						class="w3-col s12 w3-padding-16 w3-text-teal w3-center"
-						id="modalConnectionWarningMessage"
-						rendered="#{empty connectionBean.loggedUser}"
-						value="Veuillez vous connecter pour réserver un produit ou suivre un commerce" />
+<!-- 					<h:outputText -->
+<!-- 						class="w3-col s12 w3-padding-16 w3-text-teal w3-center" -->
+<!-- 						id="modalConnectionWarningMessage" -->
+<!-- 						rendered="#{empty connectionBean.loggedUser}" -->
+<!-- 						value="Veuillez vous connecter pour réserver un produit ou suivre un commerce" /> -->
 				</div>
 			</div>
-			<div class="w3-bar w3-border-bottom w3-col s12">
-				<button class="tablink w3-bar-item w3-button"
-					onclick="openCity(event, 'Description_Detaille_#{promotion.id}')">Description</button>
-				<button class="tablink w3-bar-item w3-button"
-					onclick="openCity(event, 'Avis_#{promotion.id}')">Avis</button>
-			</div>
+<!-- 			<div class="w3-bar w3-border-bottom w3-col s12"> -->
+<!-- 				<button class="tablink w3-bar-item w3-button" -->
+<!-- 					onclick="openCity(event, 'Description_Detaille_#{promotion.id}')">Description</button> -->
+<!-- 				<button class="tablink w3-bar-item w3-button" -->
+<!-- 					onclick="openCity(event, 'Avis_#{promotion.id}')">Avis</button> -->
+<!-- 			</div> -->
 
 			<div id="Description_Detaille_#{promotion.id}"
 				class="w3-container city">
@@ -364,46 +346,46 @@ function initMap(id_item) { console.log('iddd : '+id_item); console.log(geolocat
 				</p>
 			</div>
 
-			<div id="Avis_#{promotion.id}" class="w3-container city">
-				<blockquote class="w3-mobile">
-					<header class="avisClient w3-mobile"> <span
-						data-rating='5'> <i class="ion-star"></i> <i
-						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i>
-						<i class="ion-star"></i>
-					</span> <strong class="w3-mobile">Titre Avis</strong> <span
-						class="w3-mobile"> 20 Octobre 2018</span> <span class="w3-mobile">
-						Par <em>Ramya</em>
-					</span>
-					<p>Description Avis</p>
-					</header>
-				</blockquote>
+<!-- 			<div id="Avis_#{promotion.id}" class="w3-container city"> -->
+<!-- 				<blockquote class="w3-mobile"> -->
+<!-- 					<header class="avisClient w3-mobile"> <span -->
+<!-- 						data-rating='5'> <i class="ion-star"></i> <i -->
+<!-- 						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i> -->
+<!-- 						<i class="ion-star"></i> -->
+<!-- 					</span> <strong class="w3-mobile">Titre Avis</strong> <span -->
+<!-- 						class="w3-mobile"> 20 Octobre 2018</span> <span class="w3-mobile"> -->
+<!-- 						Par <em>Ramya</em> -->
+<!-- 					</span> -->
+<!-- 					<p>Description Avis</p> -->
+<!-- 					</header> -->
+<!-- 				</blockquote> -->
 
-				<blockquote class="w3-mobile">
-					<header class="avisClient w3-mobile"> <span
-						data-rating='4'> <i class="ion-star"></i> <i
-						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i>
-						<i class="ion-star"></i>
-					</span> <strong class="w3-mobile">Titre Avis</strong> <span
-						class="w3-mobile"> 20 Octobre 2018</span> <span class="w3-mobile">Par
-						<em>Aubin</em>
-					</span>
-					<p class="w3-mobile">Description Avis</p>
-					q </header>
-				</blockquote>
+<!-- 				<blockquote class="w3-mobile"> -->
+<!-- 					<header class="avisClient w3-mobile"> <span -->
+<!-- 						data-rating='4'> <i class="ion-star"></i> <i -->
+<!-- 						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i> -->
+<!-- 						<i class="ion-star"></i> -->
+<!-- 					</span> <strong class="w3-mobile">Titre Avis</strong> <span -->
+<!-- 						class="w3-mobile"> 20 Octobre 2018</span> <span class="w3-mobile">Par -->
+<!-- 						<em>Aubin</em> -->
+<!-- 					</span> -->
+<!-- 					<p class="w3-mobile">Description Avis</p> -->
+<!-- 					q </header> -->
+<!-- 				</blockquote> -->
 
-				<blockquote class="w3-mobile w3-s">
-					<header class=" w3-mobile avisClient"> <span
-						data-rating='0'> <i class="ion-star"></i> <i
-						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i>
-						<i class="ion-star"></i>
-					</span> <strong class="w3-mobile">Titre Avis</strong> <span
-						class="w3-mobile"> 18 Octobre 2018</span> <span class="w3-mobile">Par
-						<em>Nicolas</em>
-					</span>
-					<p class="w3-mobile">Description Avis</p>
-					</header>
-				</blockquote>
-			</div>
+<!-- 				<blockquote class="w3-mobile w3-s"> -->
+<!-- 					<header class=" w3-mobile avisClient"> <span -->
+<!-- 						data-rating='0'> <i class="ion-star"></i> <i -->
+<!-- 						class="ion-star"></i> <i class="ion-star"></i> <i class="ion-star"></i> -->
+<!-- 						<i class="ion-star"></i> -->
+<!-- 					</span> <strong class="w3-mobile">Titre Avis</strong> <span -->
+<!-- 						class="w3-mobile"> 18 Octobre 2018</span> <span class="w3-mobile">Par -->
+<!-- 						<em>Nicolas</em> -->
+<!-- 					</span> -->
+<!-- 					<p class="w3-mobile">Description Avis</p> -->
+<!-- 					</header> -->
+<!-- 				</blockquote> -->
+<!-- 			</div> -->
 		</div>
 	</div>
 

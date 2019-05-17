@@ -1,6 +1,7 @@
 package fr.afcepf.al32.groupe2.web.addpromotion;
 
 import fr.afcepf.al32.groupe2.entity.*;
+import fr.afcepf.al32.groupe2.service.IAuthenticationService;
 import fr.afcepf.al32.groupe2.service.IFollowableElementService;
 import fr.afcepf.al32.groupe2.service.IServiceBaseProduct;
 import fr.afcepf.al32.groupe2.service.IServicePublish;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.util.*;
@@ -29,6 +31,9 @@ public class AddPromotionBean {
 	
 	@Autowired
 	private IServicePublish servicePublish;
+	
+	@Autowired
+	IAuthenticationService serviceAthentication;
 	
 	@Autowired
 	private IServiceBaseProduct serviceBaseProduct;
@@ -147,6 +152,22 @@ public class AddPromotionBean {
 		followableElementService.notifySubscribers(shop);
 		 // bnm - 15/05/2019 implémentation envoi de courriels par web service
 		emailService.sendEmailPromoOwner( shopkeeper, promotion);
+		
+		
+		//Triche pour afficher les nouvelles promotions
+//		Long id = connectionBean.getLoggedUser().getId();
+//		
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		context.getExternalContext().invalidateSession();
+//		try {
+//			getPromotionCommercant();
+//		} catch (Exception e) {
+//			Shopkeeper precedent = (Shopkeeper) serviceAthentication.findOneById(id);
+//			connectionBean.setLoggedUser(precedent);
+//			
+//		}
+//		init();
+//		getPromotionCommercant();
 		return "../../invite/fichesPromotion/pageAffichagePromotions.xhtml";
 	}
 
@@ -201,7 +222,6 @@ public class AddPromotionBean {
 	public void init() {
 		Shopkeeper shopkeeper = (Shopkeeper) connectionBean.getLoggedUser();
 		shops = new ArrayList<>(shopkeeper.getShops().values());
-		
 		products = serviceBaseProduct.findAll();
 	}
 
