@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: social-login-app
+Implementation-Version: 1.0
+Built-By: issaj
+Implementation-Vendor-Id: fr.afcepf.al32
+Build-Jdk: 1.8.0_211
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/social-login-app
+Created-By: Maven Integration for Eclipse
+
