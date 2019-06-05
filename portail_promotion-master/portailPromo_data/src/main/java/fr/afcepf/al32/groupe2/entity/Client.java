@@ -14,6 +14,8 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.afcepf.al32.groupe2.util.SubscriberType;
 
 
@@ -29,10 +31,12 @@ public class Client extends User implements ISubscriber{
 
 	@OneToOne(cascade= {CascadeType.ALL})
 	@JoinTable(name="client_address", joinColumns=@JoinColumn(name="client_id"), inverseJoinColumns=@JoinColumn(name="address_id"))
+	@JsonIgnore
 	private Address address;
 	
 	@OneToMany(mappedBy="client", fetch=FetchType.EAGER)
 	@MapKey(name="id")
+	@JsonIgnore
 	private Map<Long,Reservation> reservations;
 	
 	public Address getAddress() {
