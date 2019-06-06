@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 				query="SELECT us FROM User us INNER JOIN FETCH us.authenticationData ad WHERE ad.login = :login AND ad.password = :password")
 		
 })
-public abstract class User {
+public abstract class User{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

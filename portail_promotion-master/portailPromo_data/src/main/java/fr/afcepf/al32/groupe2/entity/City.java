@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="city")
 public class City {
@@ -31,6 +33,7 @@ public class City {
 	
 	@OneToMany(mappedBy="city", cascade=CascadeType.ALL)
 	@MapKey(name="id")
+	@JsonIgnore
 	private Map<Long, Address> addresses;
 	
 	

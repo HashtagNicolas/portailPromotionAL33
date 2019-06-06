@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import fr.afcepf.al32.groupe2.util.SubscriberType;
 
@@ -27,11 +29,11 @@ import fr.afcepf.al32.groupe2.util.SubscriberType;
 						+ "WHERE fed.element_id = :elementId AND fed.element_type = :elementType AND fed.follow_end_date IS NULL",resultClass=Client.class)
 		
 })
+
 public class Client extends User implements ISubscriber{
 
 	@OneToOne(cascade= {CascadeType.ALL})
 	@JoinTable(name="client_address", joinColumns=@JoinColumn(name="client_id"), inverseJoinColumns=@JoinColumn(name="address_id"))
-	@JsonIgnore
 	private Address address;
 	
 	@OneToMany(mappedBy="client", fetch=FetchType.EAGER)

@@ -14,6 +14,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
+
 @Entity
 @Table(name="address")
 public class Address {
@@ -29,6 +33,7 @@ public class Address {
 	@ManyToOne(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER)
 	@JoinColumn(name="address_type_id")
 	@NotNull
+	@JsonIgnore
 	private AddressType addressType;
 	
 	@Column(name="address_complement")
@@ -44,9 +49,11 @@ public class Address {
 	private City city;
 	
 	@OneToOne(mappedBy="address")
+	@JsonIgnore
 	private Client inhabitant;
 	
 	@OneToOne(mappedBy="address")
+	@JsonIgnore
 	private Shop shop;
 	
 	@OneToOne(mappedBy="address", cascade=CascadeType.ALL)

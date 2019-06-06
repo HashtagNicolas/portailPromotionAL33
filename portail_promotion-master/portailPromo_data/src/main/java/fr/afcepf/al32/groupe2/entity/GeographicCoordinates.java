@@ -8,6 +8,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="geographic_coordinates")
 public class GeographicCoordinates {
@@ -24,6 +26,7 @@ public class GeographicCoordinates {
 	
 	@OneToOne
 	@PrimaryKeyJoinColumn
+	@JsonIgnore
 	private Address address;
 
 	public String getLongitude() {
