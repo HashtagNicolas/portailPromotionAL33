@@ -19,6 +19,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import fr.afcepf.al32.groupe2.entity.User;
 import fr.afcepf.al32.groupe2.service.IAuthenticationService;
 
+
+//exemple url postman pour la class ConnectionController : 
+//http://localhost:8081/api/auth/connexion/root1/root
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @SessionScope

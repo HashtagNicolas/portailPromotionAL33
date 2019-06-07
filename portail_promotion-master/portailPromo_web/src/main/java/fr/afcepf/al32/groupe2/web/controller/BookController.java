@@ -19,6 +19,8 @@ import fr.afcepf.al32.groupe2.service.IServicePromotion;
 import fr.afcepf.al32.groupe2.service.IServiceReservation;
 import fr.afcepf.al32.groupe2.service.impl.EmailWServiceImpl;
 
+////exemple url postman pour la class BookController : 
+// http://localhost:8081/api/bookcontroller/book/15/1
 @Component
 @Transactional
 @RequestScope
