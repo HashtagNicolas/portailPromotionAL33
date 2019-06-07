@@ -1,21 +1,17 @@
 package fr.afcepf.al32.groupe2.web.controller;
 
 import java.util.Date;
-import java.util.Map;
 
-import javax.faces.context.FacesContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.RequestScope;
 
 import fr.afcepf.al32.groupe2.entity.Client;
-import fr.afcepf.al32.groupe2.entity.Promotion;
 import fr.afcepf.al32.groupe2.entity.Reservation;
 import fr.afcepf.al32.groupe2.entity.ReservationProduct;
 import fr.afcepf.al32.groupe2.service.IServicePromotion;
@@ -42,7 +38,7 @@ public class BookController {
 	@Autowired
 	IServicePromotion promotionService; 
 	
-	//private Double quantityBooked;
+
 	
 	//TODO coté angular il faudra récupérer l'id de la promotion réservé et la quantité réservé
 	@PostMapping("/book/{id}/{quantityBooked}")
@@ -81,8 +77,10 @@ public class BookController {
 		
 		quantityBooked = 1d;
 		
+
 		//return promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
+
+		//return "../../client/reservationClient/gererReservationClient.xhtml";
 	}
-	
 	
 }
