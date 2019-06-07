@@ -13,6 +13,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="evaluation")
 public class Evaluation {
@@ -36,6 +38,7 @@ public class Evaluation {
 	@OneToOne(cascade= {CascadeType.PERSIST})
 	@PrimaryKeyJoinColumn
 	@NotNull
+	@JsonIgnore
 	private Reservation reservation;
 	
 	public Date getDateCreation() {

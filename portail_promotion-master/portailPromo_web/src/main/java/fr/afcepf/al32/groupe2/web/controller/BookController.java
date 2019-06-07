@@ -74,7 +74,7 @@ public class BookController {
 		promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
 		System.err.println(id + " ---------- " + quantityBooked);
 		//TODO Probleme d'envoie de mail : peut etre fix email envoi
-		//emailService.sendEmailReservation((Client) connectionController.getLoggedUser(), reservation);
+		emailService.sendEmailReservation((Client) connectionController.getLoggedUser(), reservation);
 		
 		quantityBooked = 1d;
 		

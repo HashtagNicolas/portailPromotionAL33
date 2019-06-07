@@ -26,6 +26,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="promotion")
 @PrimaryKeyJoinColumn(name = "id")
@@ -77,6 +79,7 @@ public class Promotion extends Product {
 	
 	@ManyToOne(cascade= {CascadeType.ALL})
 	@JoinColumn(name="template_promotion_id")
+	@JsonIgnore
 	private TemplatePromotion templatePromotion;
 	
 	@OneToOne(cascade=CascadeType.MERGE)

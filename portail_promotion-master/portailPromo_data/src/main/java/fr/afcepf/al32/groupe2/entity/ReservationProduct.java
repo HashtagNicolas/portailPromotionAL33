@@ -38,6 +38,7 @@ public class ReservationProduct {
 	@OneToOne(cascade = { CascadeType.PERSIST })
 	@PrimaryKeyJoinColumn
 	@NotNull
+	@JsonIgnore
 	private Reservation reservation;
 
 	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)

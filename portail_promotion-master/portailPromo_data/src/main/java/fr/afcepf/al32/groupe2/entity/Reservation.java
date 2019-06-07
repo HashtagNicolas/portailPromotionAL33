@@ -51,7 +51,6 @@ public class Reservation {
 	private Evaluation evaluation;
 	
 	@OneToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE},mappedBy="reservation", fetch=FetchType.EAGER)
-	@JsonIgnore
 	private ReservationProduct reservationProduct;
 	
 	public Date getDateCreation() {

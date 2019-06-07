@@ -22,6 +22,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.afcepf.al32.groupe2.util.FollowableElementType;
 
 @Entity
@@ -78,6 +80,7 @@ public class Shop implements IFollowableElement{
 
 	@ManyToMany(mappedBy="shops", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@MapKey(name="id")
+	@JsonIgnore
 	private Map<Long, Promotion> promotions;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)

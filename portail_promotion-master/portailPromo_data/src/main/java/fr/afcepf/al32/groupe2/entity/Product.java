@@ -12,6 +12,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "product")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,6 +25,7 @@ public abstract class Product {
 	private Long id;
 
 	@OneToOne(mappedBy="product")
+	@JsonIgnore
 	private Promotion promotion;
 	
 	public Long getId() {

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="publish")
 public class Publish {
@@ -29,6 +31,7 @@ public class Publish {
 	
 	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="promotion_id")
+	@JsonIgnore
 	private Promotion promotion;
 	
 	@ManyToOne(cascade= {CascadeType.ALL})
