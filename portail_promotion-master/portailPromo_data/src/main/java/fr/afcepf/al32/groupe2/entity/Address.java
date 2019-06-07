@@ -33,7 +33,6 @@ public class Address {
 	@ManyToOne(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER)
 	@JoinColumn(name="address_type_id")
 	@NotNull
-	@JsonIgnore
 	private AddressType addressType;
 	
 	@Column(name="address_complement")

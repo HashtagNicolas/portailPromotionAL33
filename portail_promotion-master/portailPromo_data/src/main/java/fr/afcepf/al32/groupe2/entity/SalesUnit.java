@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "sales_unit")
 @NamedQueries({
@@ -33,6 +35,7 @@ public class SalesUnit {
 	
 	@OneToMany(mappedBy = "salesUnit", cascade = CascadeType.ALL)
 	@MapKey(name = "id")
+	@JsonIgnore
 	private Map<Long, ReferenceProduct> referenceProduit;
 
 	public Long getId() {

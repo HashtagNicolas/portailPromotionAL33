@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.afcepf.al32.groupe2.util.FollowableElementType;
 
 @Entity
@@ -42,10 +44,12 @@ public class CategoryProduct implements IFollowableElement {
 	private CategoryProduct categoryMum;
 
 	@OneToMany(mappedBy = "categoryMum", fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<CategoryProduct> categoryDaughter;
 
 	@OneToMany(mappedBy = "categoriesProduct", cascade = CascadeType.ALL)
 	@MapKey(name = "id")
+	@JsonIgnore
 	private Map<Long, ReferenceProduct> referenceProduit;
 
 	 @ManyToMany(mappedBy="categoryProducts")
