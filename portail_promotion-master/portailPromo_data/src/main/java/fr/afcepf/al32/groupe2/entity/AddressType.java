@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="address_type")
 public class AddressType {
@@ -27,6 +29,7 @@ public class AddressType {
 
 	@OneToMany(mappedBy="addressType", cascade=CascadeType.ALL)
 	@MapKey(name="id")
+	@JsonIgnore
 	private Map<Long, Address> addresses;
 	
 	public String getName() {

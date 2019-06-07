@@ -1,4 +1,4 @@
-package fr.afcepf.al32.groupe2.web.productlist;
+package fr.afcepf.al32.groupe2.web.controller;
 
 import java.util.Date;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.transaction.Transactional;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.RequestScope;
 
 import fr.afcepf.al32.groupe2.entity.Client;
@@ -18,15 +18,15 @@ import fr.afcepf.al32.groupe2.entity.ReservationProduct;
 import fr.afcepf.al32.groupe2.service.IServicePromotion;
 import fr.afcepf.al32.groupe2.service.IServiceReservation;
 import fr.afcepf.al32.groupe2.service.impl.EmailWServiceImpl;
-import fr.afcepf.al32.groupe2.web.connexion.ConnectionBean;
 
 @Component
 @Transactional
 @RequestScope
-public class BookBean {
+@RequestMapping("/api/bookcontroller")
+public class BookController {
 	
 	@Autowired
-	ConnectionBean connectionBean;
+	ConnectionController connectionController;
 	
 	@Autowired
 	IServiceReservation reservationService;
@@ -41,6 +41,7 @@ public class BookBean {
 	
 	private Double quantityBooked;
 	
+	@PostMapping("/book/{id}/{quantitybooked}")
 	public String book() {
 		
 		Map<String,String> params = 
@@ -53,7 +54,7 @@ public class BookBean {
 	    reservationProduct.setPromotion(promotionService.recherchePromotionParIdentifiant(id));
 		reservationProduct.setQuantityRequested(Math.min(quantityBooked, promotionService.recherchePromotionParIdentifiant(id).getQuantityRemaining()));
 		
-		reservation.setClient((Client)connectionBean.getLoggedUser());
+		reservation.setClient((Client)connectionController.getLoggedUser());
 		reservation.setDateCreation(new Date());
 
 		long withDrawalCode = Math.round(Math.random() * 100000);
@@ -65,7 +66,7 @@ public class BookBean {
 
 		promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
 
-		emailService.sendEmailReservation((Client) connectionBean.getLoggedUser(), reservation);
+		emailService.sendEmailReservation((Client) connectionController.getLoggedUser(), reservation);
 		
 		quantityBooked = 1d;
 		

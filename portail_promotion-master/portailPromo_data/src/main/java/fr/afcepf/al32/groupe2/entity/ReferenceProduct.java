@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.afcepf.al32.groupe2.util.FollowableElementType;
 
 @Entity
@@ -50,6 +52,7 @@ public class ReferenceProduct implements IFollowableElement {
 
 	@OneToMany(mappedBy = "referenceProduct", cascade = CascadeType.ALL)
 	@MapKey(name = "id")
+	@JsonIgnore
 	private Map<Long, BaseProduct> listproduct;
 
 	public Date getDateReferencing() {
