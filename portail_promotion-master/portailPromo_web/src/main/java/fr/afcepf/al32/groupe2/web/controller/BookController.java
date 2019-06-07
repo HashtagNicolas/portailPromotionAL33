@@ -1,6 +1,7 @@
 package fr.afcepf.al32.groupe2.web.controller;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -38,7 +39,7 @@ public class BookController {
 	@Autowired
 	IServicePromotion promotionService; 
 	
-
+	private Double quantityBooked;
 	
 	//TODO coté angular il faudra récupérer l'id de la promotion réservé et la quantité réservé
 	@PostMapping("/book/{id}/{quantityBooked}")
@@ -77,10 +78,8 @@ public class BookController {
 		
 		quantityBooked = 1d;
 		
-
 		//return promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
-
-		//return "../../client/reservationClient/gererReservationClient.xhtml";
 	}
+	
 	
 }
