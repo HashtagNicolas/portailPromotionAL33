@@ -39,8 +39,6 @@ public class BookController {
 	@Autowired
 	IServicePromotion promotionService; 
 	
-	private Double quantityBooked;
-	
 	//TODO coté angular il faudra récupérer l'id de la promotion réservé et la quantité réservé
 	@PostMapping("/book/{id}/{quantityBooked}")
 	public void book(@PathVariable Long id, @PathVariable Double quantityBooked) {
@@ -73,7 +71,7 @@ public class BookController {
 		System.err.println(id + " ----222------ " + quantityBooked);
 		promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
 		System.err.println(id + " ---------- " + quantityBooked);
-		//TODO à corriger pour l'envoie de mail
+		//TODO Probleme d'envoie de mail : peut etre fix email envoi
 		//emailService.sendEmailReservation((Client) connectionController.getLoggedUser(), reservation);
 		
 		quantityBooked = 1d;
