@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.annotation.RequestScope;
@@ -41,14 +42,16 @@ public class BookController {
 	
 	private Double quantityBooked;
 	
-	@PostMapping("/book/{id}/{quantitybooked}")
-	public String book() {
-		
-		Map<String,String> params = 
-                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-	  String promo = params.get("promotion");
-	  Long id = Long.parseLong(promo);
-	  
+	//information de réservation id + la quantité réservé
+	@PostMapping("/book/{id}/{quantityBooked}")
+	public void book(@PathVariable Long id, @PathVariable Double quantityBooked) {
+
+		//Get id promotion quand l'user clique sur reservation voir WEB-INF/client/promotions3 line 361
+//		Map<String,String> params = 
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//	  String promo = params.get("promotion");
+//	  Long id = Long.parseLong(promo);
+//	  
 		Reservation reservation = new Reservation();
 		ReservationProduct reservationProduct = new ReservationProduct();
 	    reservationProduct.setPromotion(promotionService.recherchePromotionParIdentifiant(id));
@@ -70,7 +73,7 @@ public class BookController {
 		
 		quantityBooked = 1d;
 		
-		return "../../client/reservationClient/gererReservationClient.xhtml";
+		//return "../../client/reservationClient/gererReservationClient.xhtml";
 	}
 
 	public Double getQuantityBooked() {
