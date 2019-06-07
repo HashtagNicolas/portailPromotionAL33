@@ -43,6 +43,7 @@ public class BookBean {
 	
 	public String book() {
 		
+		//recupère l'id de la promotion réservé dans WEB-INF/components/promotion3 line:314-319
 		Map<String,String> params = 
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 	  String promo = params.get("promotion");

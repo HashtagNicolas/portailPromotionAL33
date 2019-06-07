@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="reservation")
 @NamedQueries({
@@ -49,6 +51,7 @@ public class Reservation {
 	private Evaluation evaluation;
 	
 	@OneToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE},mappedBy="reservation", fetch=FetchType.EAGER)
+	@JsonIgnore
 	private ReservationProduct reservationProduct;
 	
 	public Date getDateCreation() {
