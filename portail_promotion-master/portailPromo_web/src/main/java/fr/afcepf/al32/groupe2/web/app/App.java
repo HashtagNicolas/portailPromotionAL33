@@ -22,6 +22,9 @@ import org.springframework.web.context.ServletContextAware;
 
 import com.google.common.collect.ImmutableMap;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@EnableSwagger2
 @SpringBootApplication(scanBasePackages= {"fr.afcepf.al32.groupe2"}, exclude= {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EntityScan(basePackages="fr.afcepf.al32.groupe2.entity")
 public class App implements ServletContextAware{

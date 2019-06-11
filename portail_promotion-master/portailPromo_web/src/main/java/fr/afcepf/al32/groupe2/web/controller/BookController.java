@@ -1,6 +1,7 @@
 package fr.afcepf.al32.groupe2.web.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,10 @@ import fr.afcepf.al32.groupe2.entity.ReservationProduct;
 import fr.afcepf.al32.groupe2.service.IServicePromotion;
 import fr.afcepf.al32.groupe2.service.IServiceReservation;
 import fr.afcepf.al32.groupe2.service.impl.EmailWServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 ////exemple url postman pour la class BookController : 
 // http://localhost:8081/api/bookcontroller/book/15/1
@@ -25,6 +30,7 @@ import fr.afcepf.al32.groupe2.service.impl.EmailWServiceImpl;
 @Transactional
 @RequestScope
 @RequestMapping("/api/bookcontroller")
+@Api(value = "PortailPromotion" , description = "Gestion des Reservations")
 public class BookController {
 	
 	@Autowired
@@ -42,6 +48,13 @@ public class BookController {
 	IServicePromotion promotionService; 
 	
 	//TODO coté angular il faudra récupérer l'id de la promotion réservé et la quantité réservé
+	@ApiOperation(value = "créer une reservation", response = List.class)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 200, message = "Liste créer"),
+	        @ApiResponse(code = 401, message = "Vous n'êtes pas autorisé à voir la ressource"),
+	        @ApiResponse(code = 403, message = "Accéder à la ressource que vous essayiez d'atteindre est interdit"),
+	        @ApiResponse(code = 404, message = "La ressource que vous essayiez d'atteindre n'a pas été trouvée")
+	})
 	@PostMapping("/book/{id}/{quantityBooked}")
 	public void book(@PathVariable Long id, @PathVariable Double quantityBooked) {
 		System.err.println(id + " ----debut methode------ " + quantityBooked);
