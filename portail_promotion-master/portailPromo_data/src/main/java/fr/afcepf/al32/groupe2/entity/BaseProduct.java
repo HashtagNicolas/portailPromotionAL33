@@ -15,6 +15,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import fr.afcepf.al32.groupe2.util.FollowableElementType;
 
 @Entity
@@ -24,6 +27,7 @@ import fr.afcepf.al32.groupe2.util.FollowableElementType;
 	@NamedQuery(name="BaseProduct.findAllValid" , query="select s From BaseProduct s WHERE s.removeDate = null" )
 	//,@NamedQuery(name="sales_unit.findbySalesUnit" , query="select s From sales_unit s" )
 })
+@JsonIgnoreProperties({"promotionList", "promotion", "baseProduct", "lastProduct"})
 public class BaseProduct extends Product implements IFollowableElement {
 	
 	@Column(name="init_price")
@@ -88,6 +92,7 @@ public class BaseProduct extends Product implements IFollowableElement {
 		return FollowableElementType.PRODUCT;
 	}
 	
+	@Override
 	public List<Promotion> getPromotionList(){
 		List<Promotion> result = new ArrayList<>();
 		

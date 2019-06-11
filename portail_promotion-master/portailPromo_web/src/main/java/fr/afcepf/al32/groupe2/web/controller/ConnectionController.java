@@ -64,14 +64,11 @@ public class ConnectionController {
 	}
 	
 	@GetMapping("/logout")
-	public String logout() {
+	public void logout() {
 		loggedUser = null;
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().invalidateSession();
-
-
-		return "../../index.xhtml";
 	}
 
 	public User getLoggedUser() {

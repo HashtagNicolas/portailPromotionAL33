@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -27,6 +28,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="promotion")
@@ -36,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 	@NamedQuery(name="Promotion.findAllValid" , query="select s From Promotion s WHERE s.dateRemove = null AND quantityRemaining > 0" ),
 		@NamedQuery(name="Promotion.findAllValidByIds" , query="select s From Promotion s WHERE s.dateRemove = null AND quantityRemaining > 0 AND s.id IN :promoIds" )
 })
+@JsonIgnoreProperties({"promotionList", "promotion", "baseProduct", "lastProduct"})
 public class Promotion extends Product {
 
 	@Column(name="name")
@@ -85,6 +88,11 @@ public class Promotion extends Product {
 	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="product_id")
 	private Product product;
+	
+	@OneToMany(cascade=CascadeType.MERGE)
+	@JsonIgnore
+	@MapKey(name ="id")
+	private List<ReservationProduct> reservationProductList;
 	
 	public String getName() {
 		return name;
@@ -171,6 +179,14 @@ public class Promotion extends Product {
 		this.product = product;
 	}
 	
+	
+	
+	public List<ReservationProduct> getReservationProductList() {
+		return reservationProductList;
+	}
+	public void setReservationProductList(List<ReservationProduct> reservationProductList) {
+		this.reservationProductList = reservationProductList;
+	}
 	@Override
 	public List<Promotion> getPromotionList() {
 		List<Promotion> result = new ArrayList<>();

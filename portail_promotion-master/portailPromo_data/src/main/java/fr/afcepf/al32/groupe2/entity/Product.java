@@ -25,7 +25,6 @@ public abstract class Product {
 	private Long id;
 
 	@OneToOne(mappedBy="product")
-	@JsonIgnore
 	private Promotion promotion;
 	
 	public Long getId() {
