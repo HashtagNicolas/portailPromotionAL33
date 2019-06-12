@@ -11,9 +11,11 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import fr.afcepf.al32.groupe2.util.SubscriberType;
+
 @Entity
 @DiscriminatorValue(value="shopkeeper")
-public class Shopkeeper extends User{
+public class Shopkeeper extends User implements ISubscriber{
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@MapKey(name="id")
@@ -40,6 +42,13 @@ public class Shopkeeper extends User{
 	public void setTemplatesPromotion(Map<Long, TemplatePromotion> templatesPromotion) {
 		this.templatesPromotion = templatesPromotion;
 	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return SubscriberType.SHOPKEEPER;
+	}
+
 	
 	
 }
