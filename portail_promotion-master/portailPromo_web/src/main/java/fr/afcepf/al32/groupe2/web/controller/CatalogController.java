@@ -82,8 +82,14 @@ import fr.afcepf.al32.groupe2.ws.dto.CategoryProductDto;
 		@PostMapping("/research")
 		public ResultSearchDTO Search (@RequestBody RequestSearchDTO requestSearchDTO ) {
 			List<String> keyWords = Arrays.asList(requestSearchDTO.getSearchField().split(" "));
-			CategoryProduct category = requestSearchDTO.getCategories().stream()
-					.filter(categoryProduct -> categoryProduct.getName().equals(selectedCategory)).findFirst().orElse(null);
+		
+//			CategoryProduct category = requestSearchDTO.getCategories().stream()
+//					.filter(categoryProduct -> categoryProduct.getName().equals(selectedCategory)).findFirst().orElse(null);
+			CategoryProduct category = null;
+			ArrayList<CategoryProduct> tableauVide = new ArrayList<CategoryProduct>() ;
+			if (!requestSearchDTO.getCategories().equals(tableauVide)) {
+			category = requestSearchDTO.getCategories().get(0);
+			}
 			OrchestratorResearchDtoResponse orchestratorResponse = rechercheDelegate.searchListPromotion(
 					requestSearchDTO.getSearchSourceAddress(), requestSearchDTO.getSearchPerimeter(), keyWords,
 					category == null ? null : new CategoryProductDto(category.getId()));
