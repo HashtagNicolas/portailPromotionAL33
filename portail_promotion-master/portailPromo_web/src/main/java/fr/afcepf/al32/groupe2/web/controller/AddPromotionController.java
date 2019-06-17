@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import fr.afcepf.al32.groupe2.entity.PercentType;
 import fr.afcepf.al32.groupe2.entity.Product;
 import fr.afcepf.al32.groupe2.entity.Promotion;
 import fr.afcepf.al32.groupe2.entity.Publish;
+import fr.afcepf.al32.groupe2.entity.ReferenceProduct;
 import fr.afcepf.al32.groupe2.entity.Shop;
 import fr.afcepf.al32.groupe2.entity.Shopkeeper;
 import fr.afcepf.al32.groupe2.service.IAuthenticationService;
@@ -41,13 +44,11 @@ import fr.afcepf.al32.groupe2.ws.itf.IWsPromoTemplate;
 public class AddPromotionController {
 
 	@Autowired
-	private ConnectionController connectionController;
+	private IAuthenticationService authenticationService;
 	
 	@Autowired
 	private IServicePublish servicePublish;
 	
-	@Autowired
-	IAuthenticationService serviceAthentication;
 	
 	@Autowired
 	private IServiceBaseProduct serviceBaseProduct;
@@ -123,8 +124,8 @@ public class AddPromotionController {
 	
 	private List<Promotion> listPromo;
 	
-	@PostMapping("/create")
-	public CreatePromotionDTO create(@RequestBody  CreatePromotionDTO createPromotionDTO) {
+	@PostMapping("/create/{idCommercant}")
+	public CreatePromotionDTO create(@PathVariable Long idCommercant, @RequestBody  CreatePromotionDTO createPromotionDTO) {
 		Promotion promotion = new Promotion();
 		promotion.setName(createPromotionDTO.getPromotionName());
 		promotion.setDescription(createPromotionDTO.getDescription());
@@ -139,20 +140,20 @@ public class AddPromotionController {
 		promotion.setQuantityRemaining(createPromotionDTO.getQuantityInitAvailable());
 		
 		Map<Long, Shop> shopMap = new HashMap<>();
-		Shopkeeper shopkeeper = (Shopkeeper) connectionController.getLoggedUser();
+		Shopkeeper shopkeeper = (Shopkeeper) authenticationService.findOneById(idCommercant);
 		Shop shop = shopkeeper.getShops().get(createPromotionDTO.getIdCommerce());
 		shopMap.put(shop.getId(), shop);
 		promotion.setShops(shopMap);
 
 		switch (createPromotionDTO.getTypePromotion()){
 			case "Pourcentage":
-				createPercentagePromotion(promotion);
+				createPercentagePromotion(promotion, createPromotionDTO.getMinPurchaseAmountPercent(), createPromotionDTO.getPercentValue() );
 				break;
 			case "Remise":
-				createDiscountPromotion(promotion);
+				createDiscountPromotion(promotion, createPromotionDTO.getDiscountValue(), createPromotionDTO.getMinPurchaseAmountDiscount() );
 				break;
 			case "Pack":
-				createPackPromotion(promotion);
+				createPackPromotion(promotion, createPromotionDTO.getNumberPurchase().intValue(), createPromotionDTO.getNumberOffered().intValue());
 				break;
 		}
 
@@ -169,37 +170,33 @@ public class AddPromotionController {
 		return createPromotionDTO;
 	}
 	
+	@GetMapping("/productList")
+	public List<BaseProduct> referenceProductList () {
+	return serviceBaseProduct.findAll();
+	}
 	
-	private void createPackPromotion(Promotion promotion) {
-		CreatePromotionDTO createPromotionDTO = null;
+	
+	private void createPackPromotion(Promotion promotion, int numberPurchase , int numberOffered) {
 		Pack packType = new Pack();
-		packType.setNumberPurchased(createPromotionDTO.getNumberPurchase().intValue());
-		packType.setNumberOffered(createPromotionDTO.getNumberOffered().intValue());
+		packType.setNumberPurchased(numberPurchase);
+		packType.setNumberOffered(numberOffered);
 		promotion.setPromotionType(packType);
 	}
 
-	private void createDiscountPromotion(Promotion promotion) {
+	private void createDiscountPromotion(Promotion promotion,  double discountValue, double minPurchaseAmountDiscount ) {
 		Discount discountType = new Discount();
-		CreatePromotionDTO createPromotionDTO = null;
-		discountType.setDiscountValue(createPromotionDTO.getDiscountValue());
-		discountType.setMinPurchaseAmount(createPromotionDTO.getMinPurchaseAmountDiscount());
+		discountType.setDiscountValue(discountValue);
+		discountType.setMinPurchaseAmount(minPurchaseAmountDiscount);
 		promotion.setPromotionType(discountType);
 	}
 
-	private void createPercentagePromotion(Promotion promotion) {
-		CreatePromotionDTO createPromotionDTO = null;
+	private void createPercentagePromotion(Promotion promotion, double minPurchaseAmount, double percentValue ) {
 		PercentType percentType = new PercentType();
-		percentType.setMinPurchaseAmount(createPromotionDTO.getMinPurchaseAmountPercent());
-		percentType.setPercentValue(createPromotionDTO.getPercentValue());
+		percentType.setMinPurchaseAmount(minPurchaseAmount);
+		percentType.setPercentValue(percentValue);
 		promotion.setPromotionType(percentType);
 	}
 
-	@PostConstruct
-	public void init() {
-		Shopkeeper shopkeeper = (Shopkeeper) connectionController.getLoggedUser();
-		shops = new ArrayList<>(shopkeeper.getShops().values());
-		products = serviceBaseProduct.findAll();
-	}
 
 	public String getTypePromotion() {
 		return typePromotion;
@@ -338,16 +335,4 @@ public class AddPromotionController {
 		this.listPromo = listPromo;
 	}
 	
-	
-	public String getPromotionCommercant(){
-		Shopkeeper shopkeeper = (Shopkeeper) connectionController.getLoggedUser();
-		List<Promotion> promos= new ArrayList<Promotion>();
-		//Map<Long,Promotion> promotions= new HashMap<Long, Promotion>();
-		for (Shop shop : shopkeeper.getShops().values()) {
-			promos.addAll(shop.getPromotions().values());
-		}
-		
-		setListPromo((List<Promotion>) promos);
-		return "../../invite/fichesPromotion/pageAffichagePromotions.xhtml";
-	}
 }

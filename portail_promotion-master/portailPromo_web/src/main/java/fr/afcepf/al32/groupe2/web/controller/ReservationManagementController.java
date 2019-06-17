@@ -2,12 +2,14 @@ package fr.afcepf.al32.groupe2.web.controller;
 
 import fr.afcepf.al32.groupe2.entity.Reservation;
 import fr.afcepf.al32.groupe2.entity.Shopkeeper;
+import fr.afcepf.al32.groupe2.service.IAuthenticationService;
 import fr.afcepf.al32.groupe2.service.IServiceReservation;
 import fr.afcepf.al32.groupe2.web.connexion.ConnectionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +23,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/reservationManagement")
 public class ReservationManagementController {
-    @Autowired
-    private ConnectionBean connectionBean;
 
+	@Autowired
+	private IAuthenticationService authenticationService;
+	
     @Autowired
     private IServiceReservation serviceReservation;
 
@@ -31,9 +34,10 @@ public class ReservationManagementController {
 
     private String withDrawalCode;
     
-    @PostMapping("/reservation")
-    public Reservation validateReservation( @RequestBody Reservation reservation){
-        if(reservation.getWithdrawalCode().equals(withDrawalCode)){
+    @PostMapping("/reservation/{idReservation}/{withDrawalCode}")
+    public Reservation validateReservation( @PathVariable Long idReservation, @PathVariable String withDrawalCode){
+    	Reservation reservation = serviceReservation.rechercheReservationParIdentifiant(idReservation);    	
+    	if(reservation.getWithdrawalCode().equals(withDrawalCode)){
             reservation.getReservationProduct().setWithdrawalDate(new Date());
             serviceReservation.update(reservation);
         }
@@ -41,9 +45,9 @@ public class ReservationManagementController {
         return reservation;
     }
     
-    @GetMapping("/reservationList")
-    public List<Reservation> getReservationList() {
-        Shopkeeper shopkeeper = (Shopkeeper) connectionBean.getLoggedUser();
+    @GetMapping("/reservationList/{idCommercant}")
+    public List<Reservation> getReservationList(@PathVariable Long idCommercant) {
+        Shopkeeper shopkeeper = (Shopkeeper) authenticationService.findOneById(idCommercant);
 
         return serviceReservation.findAllByShopKeeper(shopkeeper).stream().sorted(Comparator.comparing(Reservation::getDateCreation)).collect(Collectors.toList());
     }

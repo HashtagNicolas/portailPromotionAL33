@@ -29,7 +29,7 @@ public class ServiceReservation implements IServiceReservation {
 
 	@Override
 	public Reservation rechercheReservationParIdentifiant(Long idUnite) {
-		return null;
+		return reservationDao.findOne(idUnite);
 	}
 
 	@Override
