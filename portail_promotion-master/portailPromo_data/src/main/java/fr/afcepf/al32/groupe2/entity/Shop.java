@@ -67,6 +67,7 @@ public class Shop implements IFollowableElement{
 	@ManyToOne
 	@JoinTable(name="shopkeeper_shop", joinColumns=@JoinColumn(name="shop_id"), inverseJoinColumns=@JoinColumn(name="shopkeeper_id"))
 	@NotNull
+	@JsonIgnore
 	private Shopkeeper owner;
 	
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)

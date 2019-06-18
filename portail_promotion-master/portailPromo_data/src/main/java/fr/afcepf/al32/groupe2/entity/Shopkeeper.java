@@ -19,7 +19,6 @@ public class Shopkeeper extends User implements ISubscriber{
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@MapKey(name="id")
-	@JsonIgnore
 	private Map<Long, Shop> shops;
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)

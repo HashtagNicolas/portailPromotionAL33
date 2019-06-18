@@ -102,4 +102,5 @@ public class BookController {
 		//return promotionService.recherchePromotionParIdentifiant(id).decreaseAvailableQuantity(quantityBooked);
 	}
 	
+
 }
