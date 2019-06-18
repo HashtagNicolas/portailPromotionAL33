@@ -1,5 +1,7 @@
 package fr.afcepf.al32.groupe2.web.connexion;
 
+import java.io.IOException;
+
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +57,14 @@ public class ConnectionBean {
 		return suite;
 	}
 
-	public String logout() {
+	public void logout() throws IOException {
 		loggedUser = null;
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().invalidateSession();
 
-
-		return "../../index.xhtml";
+		String url = "http://localhost:4200/home";
+		context.getExternalContext().redirect(url);
 	}
 
 	public String getLogin() {
