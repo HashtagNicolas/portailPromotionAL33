@@ -63,8 +63,7 @@ public class ConnectionBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().invalidateSession();
 
-		String url = "http://localhost:4200/home";
-		context.getExternalContext().redirect(url);
+		context.getExternalContext().redirect("http://localhost:4200/");
 	}
 
 	public String getLogin() {
