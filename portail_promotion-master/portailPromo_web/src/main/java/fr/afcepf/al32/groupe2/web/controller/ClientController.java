@@ -47,6 +47,8 @@ public class ClientController {
 		return serviceReservation.findAllByClient((Client) authenticationService.findOneById(id));
 	}
 
-	
-	
+	@GetMapping("/{userId}")
+	public User getUserById(@PathVariable Long userId) {
+		return authenticationService.findOneById(userId);
+	}
 }
